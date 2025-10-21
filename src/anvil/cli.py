@@ -289,6 +289,31 @@ def check() -> None:
 
     all_passed = True
 
+
+@main.command()
+@click.option("--plan", is_flag=True, help="Show plan without applying changes")
+@click.option("--force", is_flag=True, help="Apply changes without confirmation")
+def apply(plan: bool, force: bool) -> None:
+    """Apply anvil.toml configuration to project files."""
+    from .config import Config
+
+    console.print("[bold purple]🔧[/bold purple] Applying configuration...")
+
+    config = Config()
+
+    # For now, just show that the command is recognized
+    # Phase 2 implementation will add the actual patch engine
+    console.print("[dim]Configuration application not yet implemented[/dim]")
+    console.print("[dim]This will be added in Phase 2: Patch Engine[/dim]")
+
+    if plan:
+        console.print("[green]✓[/green] Plan mode: no changes applied")
+    else:
+        console.print("[yellow]⚠️[/yellow]  Apply functionality coming soon")
+
+
+if __name__ == "__main__":
+    main()
     # Run linting
     console.print("  [dim]Running linter...[/dim]")
     lint_exit_code = executor.run_ruff_check(lint_paths)
