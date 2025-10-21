@@ -9,6 +9,7 @@ try:
     from tomllib import TOMLKitError
 except ImportError:
     import tomli as tomllib
+
     TOMLKitError = Exception  # Fallback for older tomli versions
 
 

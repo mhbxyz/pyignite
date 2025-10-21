@@ -51,30 +51,40 @@ def test_run_command():
 
 
 def test_fmt_command():
-    """Test fmt command placeholder."""
+    """Test fmt command."""
     runner = CliRunner()
     result = runner.invoke(main, ["fmt"])
     assert result.exit_code == 0
     assert "Formatting code" in result.output
-    assert "Not implemented yet" in result.output
+    assert "Code formatted successfully" in result.output
 
 
 def test_lint_command():
-    """Test lint command placeholder."""
+    """Test lint command."""
     runner = CliRunner()
     result = runner.invoke(main, ["lint"])
     assert result.exit_code == 0
     assert "Linting code" in result.output
-    assert "Not implemented yet" in result.output
+    assert "No linting issues found" in result.output
 
 
 def test_test_command():
-    """Test test command placeholder."""
+    """Test test command."""
     runner = CliRunner()
     result = runner.invoke(main, ["test"])
     assert result.exit_code == 0
     assert "Running tests" in result.output
-    assert "Not implemented yet" in result.output
+    assert "All tests passed" in result.output
+
+
+def test_check_command():
+    """Test check command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["check"])
+    assert result.exit_code == 0
+    assert "Running comprehensive code checks" in result.output
+    # The check command will fail if there are linting issues, which is expected
+    # We just verify it runs and produces output
 
 
 def test_build_command():
