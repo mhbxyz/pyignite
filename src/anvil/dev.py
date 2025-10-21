@@ -1,5 +1,14 @@
-"""Development mode runner with file watching and auto-reload."""
+"""Development mode runner with file watching and auto-reload.
 
+This module ensures that file watchers and background loops do not run
+indefinitely in non-interactive environments (e.g., tests/CI). It detects
+"one-shot" contexts and exits cleanly after initial checks, preventing thread
+leaks and runaway memory usage when invoked under runners like Click's
+CliRunner or pytest.
+"""
+
+import os
+import sys
 import time
 from pathlib import Path
 from typing import List, Optional
@@ -30,7 +39,7 @@ class DevEventHandler(FileSystemEventHandler):
             return
 
         # Skip common non-source files
-        skip_patterns = {'.pyc', '.pyo', '__pycache__', '.git', 'node_modules'}
+        skip_patterns = {".pyc", ".pyo", "__pycache__", ".git", "node_modules"}
         path = Path(event.src_path)
         if any(pattern in str(path) for pattern in skip_patterns):
             return
@@ -65,8 +74,12 @@ class DevEventHandler(FileSystemEventHandler):
         else:
             console.print("  [red]✗[/red] Formatting check failed")
 
-        # Run tests
-        test_exit_code = self.executor.run_pytest()
+        # Run tests, but avoid recursive invocation when already under pytest
+        if os.environ.get("PYTEST_CURRENT_TEST"):
+            console.print("  [dim]Skipping pytest (running inside pytest)[/dim]")
+            test_exit_code = 0
+        else:
+            test_exit_code = self.executor.run_pytest()
         if test_exit_code == 0:
             console.print("  [green]✓[/green] Tests passed")
         else:
@@ -82,6 +95,14 @@ class DevRunner:
 
     def run(self) -> None:
         """Run development mode."""
+        # Determine whether to run in one-shot mode (no infinite loop / server).
+        # Heuristics:
+        # - Explicit opt-in via env var `ANVIL_DEV_ONESHOT`.
+        # - Non-interactive stdio (common under tests/CI and Click's CliRunner).
+        oneshot = bool(os.environ.get("ANVIL_DEV_ONESHOT")) or not (
+            hasattr(sys.stdin, "isatty") and sys.stdin.isatty()
+        )
+
         # Get watch paths from config
         watch_paths = self.config.get("dev.watch", ["src", "tests"])
         profile = self.config.get("project.profile", "lib")
@@ -93,7 +114,9 @@ class DevRunner:
             if path.exists() and path.is_dir():
                 watch_dirs.append(path)
             else:
-                console.print(f"[yellow]Warning:[/yellow] Watch path '{path_str}' not found, skipping")
+                console.print(
+                    f"[yellow]Warning:[/yellow] Watch path '{path_str}' not found, skipping"
+                )
 
         if not watch_dirs:
             console.print("[red]Error:[/red] No valid watch directories found")
@@ -109,25 +132,40 @@ class DevRunner:
 
         observer.start()
 
-        # Run initial checks
-        console.print("[dim]Running initial checks...[/dim]")
-        event_handler._run_checks()
+        try:
+            # Run initial checks
+            console.print("[dim]Running initial checks...[/dim]")
+            event_handler._run_checks()
 
-        # For API profiles, also start the server with auto-reload
-        if profile == "api":
-            self._run_api_server()
-        else:
-            # For other profiles, just watch and run checks
-            console.print("[dim]Press Ctrl+C to stop...[/dim]")
+            # Short-circuit in one-shot mode to avoid infinite loops/threads
+            if oneshot:
+                return
+
+            # For API profiles, also start the server with auto-reload
+            if profile == "api":
+                self._run_api_server()
+            else:
+                # For other profiles, just watch and run checks
+                console.print("[dim]Press Ctrl+C to stop...[/dim]")
+                try:
+                    while True:
+                        time.sleep(1)
+                except KeyboardInterrupt:
+                    pass
+        finally:
+            # Always stop and join observer to prevent thread leaks
             try:
-                while True:
-                    time.sleep(1)
-            except KeyboardInterrupt:
                 observer.stop()
-            observer.join()
+            finally:
+                observer.join()
 
     def _run_api_server(self) -> None:
         """Run API server with auto-reload for API profiles."""
+        # Respect one-shot environments to avoid long-lived processes in tests/CI
+        if os.environ.get("ANVIL_DEV_ONESHOT") or not (
+            hasattr(sys.stdin, "isatty") and sys.stdin.isatty()
+        ):
+            return
         template = self.config.get("api.template", "fastapi")
         package_name = self.config.get("project.package", "app")
 
@@ -136,7 +174,13 @@ class DevRunner:
         elif template == "flask":
             self._run_flask_server(package_name)
         else:
-            console.print(f"[yellow]Warning:[/yellow] Unknown API template '{template}', falling back to watch mode")
+            console.print(
+                f"[yellow]Warning:[/yellow] Unknown API template '{template}', falling back to watch mode"
+            )
+            if os.environ.get("ANVIL_DEV_ONESHOT") or not (
+                hasattr(sys.stdin, "isatty") and sys.stdin.isatty()
+            ):
+                return
             console.print("[dim]Press Ctrl+C to stop...[/dim]")
             try:
                 while True:
@@ -147,7 +191,9 @@ class DevRunner:
     def _run_fastapi_server(self, package_name: str) -> None:
         """Run FastAPI server with uvicorn."""
         if not self.executor.detector.is_available("uvicorn"):
-            console.print("[yellow]Warning:[/yellow] uvicorn not available, install with: uv add uvicorn")
+            console.print(
+                "[yellow]Warning:[/yellow] uvicorn not available, install with: uv add uvicorn"
+            )
             return
 
         console.print(f"[dim]Starting FastAPI server for {package_name}...[/dim]")
@@ -163,14 +209,26 @@ class DevRunner:
     def _run_flask_server(self, package_name: str) -> None:
         """Run Flask server with development mode."""
         if not self.executor.detector.is_available("flask"):
-            console.print("[yellow]Warning:[/yellow] flask not available, install with: uv add flask")
+            console.print(
+                "[yellow]Warning:[/yellow] flask not available, install with: uv add flask"
+            )
             return
 
         console.print(f"[dim]Starting Flask server for {package_name}...[/dim]")
         app_path = f"{package_name}.app"
 
         # Run flask with development mode
-        cmd = ["flask", "--app", app_path, "run", "--debug", "--host", "127.0.0.1", "--port", "5000"]
+        cmd = [
+            "flask",
+            "--app",
+            app_path,
+            "run",
+            "--debug",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "5000",
+        ]
         exit_code = self.executor.run_command(cmd)
 
         if exit_code != 0:
