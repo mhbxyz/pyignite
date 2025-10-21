@@ -5,7 +5,6 @@ that can re-invoke pytest (causing recursion) or perform heavy work that
 bloats memory usage during test runs.
 """
 
-import pytest
 from click.testing import CliRunner
 from pathlib import Path
 import shutil

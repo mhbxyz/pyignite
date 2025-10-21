@@ -1,6 +1,5 @@
 """Tests for pyproject.toml generation."""
 
-import pytest
 import tempfile
 from pathlib import Path
 

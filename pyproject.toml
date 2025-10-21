@@ -51,4 +51,11 @@ dev-dependencies = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.1.0",
+    "pre-commit>=3.0.0",
+    "pyright>=1.1.0",
+    "bandit>=1.7.0",
 ]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101", "B601"]

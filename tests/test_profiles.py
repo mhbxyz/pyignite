@@ -1,6 +1,5 @@
 """Tests for profile definitions and scaffolding."""
 
-import pytest
 import tempfile
 from pathlib import Path
 

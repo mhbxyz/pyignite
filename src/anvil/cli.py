@@ -114,6 +114,7 @@ def dev() -> None:
 def run() -> None:
     """Run the canonical executable for the project."""
     from .config import Config
+
     # Use absolute import to avoid any ambiguity with relative imports
     # inside Click invocation contexts.
     from .commands.run import RunExecutor
@@ -223,12 +224,8 @@ def check() -> None:
     # This avoids accidentally running heavy type checkers during tests
     # when users set a string like "pyright" as the tool preference.
     types_setting = config.get("features.types", False)
-    types_enabled = (
-        (isinstance(types_setting, bool) and types_setting is True)
-        or (
-            isinstance(types_setting, dict)
-            and bool(types_setting.get("enabled", False))
-        )
+    types_enabled = (isinstance(types_setting, bool) and types_setting is True) or (
+        isinstance(types_setting, dict) and bool(types_setting.get("enabled", False))
     )
 
     if types_enabled:

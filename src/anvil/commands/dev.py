@@ -107,7 +107,9 @@ class DevRunner:
 
         # If invoked from the CLI under pytest, avoid starting file watchers
         # or spawning nested test processes. Run checks once and exit.
-        if os.environ.get("ANVIL_FROM_CLI_DEV") and os.environ.get("PYTEST_CURRENT_TEST"):
+        if os.environ.get("ANVIL_FROM_CLI_DEV") and os.environ.get(
+            "PYTEST_CURRENT_TEST"
+        ):
             console.print("[dim]Detected pytest; running one-shot checks only[/dim]")
             event_handler = DevEventHandler(self.config, self.executor)
             console.print("[dim]Running initial checks...[/dim]")

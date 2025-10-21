@@ -1,9 +1,5 @@
 """End-to-end tests that don't modify the project folder."""
 
-import pytest
-import tempfile
-import subprocess
-import sys
 from pathlib import Path
 
 from click.testing import CliRunner

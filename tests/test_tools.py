@@ -1,6 +1,5 @@
 """Tests for tool detection and execution."""
 
-import pytest
 from unittest.mock import patch, MagicMock
 
 from anvil.config import Config

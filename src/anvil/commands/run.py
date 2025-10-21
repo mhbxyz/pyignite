@@ -180,9 +180,7 @@ class RunExecutor:
         # Try service.py
         service_file = Path("src") / package_name / "service.py"
         if service_file.exists():
-            return self.run_command(
-                ["python", "-m", f"{package_name}.service"]
-            )
+            return self.run_command(["python", "-m", f"{package_name}.service"])
 
         console.print("[yellow]Warning:[/yellow] No service.py found")
         return 1

@@ -1,7 +1,5 @@
 """Tests for run command execution."""
-from tomllib import load
 
-import pytest
 from unittest.mock import patch, MagicMock
 
 from anvil.config import Config

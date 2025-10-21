@@ -1,11 +1,7 @@
 """Tests for development mode functionality."""
-from time import sleep
-from pathlib import Path
 
-import pytest
 from unittest.mock import patch, MagicMock
 
-from watchdog.observers import Observer
 
 from anvil.config import Config
 from anvil.tools import ToolExecutor
