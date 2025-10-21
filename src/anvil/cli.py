@@ -21,9 +21,6 @@ class AnvilGroup(click.Group):
 
         console = Console()
 
-        # Get the standard help text
-        help_text = super().get_help(ctx)
-
         # Create a colored help display
         console.print()  # Add spacing
 
