@@ -1,9 +1,15 @@
-"""Tests for CLI functionality."""
+"""Tests for CLI functionality.
+
+This suite patches external tool invocations to avoid spawning subprocesses
+that can re-invoke pytest (causing recursion) or perform heavy work that
+bloats memory usage during test runs.
+"""
 
 import pytest
 from click.testing import CliRunner
 from pathlib import Path
 import shutil
+from unittest.mock import patch
 
 from anvil.cli import main
 
@@ -80,28 +86,35 @@ def test_lint_command():
 def test_test_command():
     """Test test command."""
     runner = CliRunner()
-    result = runner.invoke(main, ["test"])
-    # Test command runs pytest but fails due to missing dependencies
-    assert result.exit_code == 0  # Click doesn't exit on error
-    assert "Running tests" in result.output
-    assert "Some tests failed" in result.output
+    # Patch to prevent spawning nested pytest processes which causes recursion
+    # and excessive memory usage when running inside pytest.
+    with patch("anvil.tools.ToolExecutor.run_pytest", return_value=1):
+        result = runner.invoke(main, ["test"])
+        assert result.exit_code == 0  # Click doesn't exit on error
+        assert "Running tests" in result.output
+        assert "Some tests failed" in result.output
 
 
 def test_check_command():
     """Test check command."""
     runner = CliRunner()
-    result = runner.invoke(main, ["check"])
-    assert result.exit_code == 0
-    assert "Running comprehensive code checks" in result.output
-    # The check command will fail if there are linting issues, which is expected
-    # We just verify it runs and produces output
+    # Patch linters/formatters to avoid hitting real tools
+    with (
+        patch("anvil.tools.ToolExecutor.run_ruff_check", return_value=1),
+        patch("anvil.tools.ToolExecutor.run_ruff_format", return_value=1),
+    ):
+        result = runner.invoke(main, ["check"])
+        assert result.exit_code == 0
+        assert "Running comprehensive code checks" in result.output
+        # We just verify it runs and produces output
 
 
 def test_build_command():
     """Test build command placeholder."""
     runner = CliRunner()
-    result = runner.invoke(main, ["build"])
-    # Build command actually works and creates distributions
-    assert result.exit_code == 0
-    assert "Building project" in result.output
-    assert "Build completed successfully" in result.output
+    # Patch build to avoid heavy subprocesses
+    with patch("anvil.tools.ToolExecutor.run_uv_build", return_value=0):
+        result = runner.invoke(main, ["build"])
+        assert result.exit_code == 0
+        assert "Building project" in result.output
+        assert "Build completed successfully" in result.output

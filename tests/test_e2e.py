@@ -45,6 +45,7 @@ class TestE2E:
 
             # Clean up created project
             import shutil
+
             if Path("testlib").exists():
                 shutil.rmtree("testlib")
 
@@ -66,6 +67,7 @@ class TestE2E:
 
             # Clean up created project
             import shutil
+
             if Path("testcli").exists():
                 shutil.rmtree("testcli")
 
@@ -101,6 +103,7 @@ class TestE2E:
 
             # Clean up created project
             import shutil
+
             if Path("testapi").exists():
                 shutil.rmtree("testapi")
 
@@ -125,6 +128,7 @@ class TestE2E:
 
             # Clean up created project
             import shutil
+
             if Path("testapi").exists():
                 shutil.rmtree("testapi")
 
@@ -171,6 +175,7 @@ class TestE2E:
 
             # Clean up created project
             import shutil
+
             if Path("testlib").exists():
                 shutil.rmtree("testlib")
 
@@ -202,5 +207,6 @@ class TestE2E:
 
             # Clean up created project
             import shutil
+
             if Path("testlib").exists():
                 shutil.rmtree("testlib")
