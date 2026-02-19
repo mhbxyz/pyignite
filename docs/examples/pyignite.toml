@@ -1,0 +1,25 @@
+[project]
+name = "myapi"
+profile = "api"
+template = "fastapi"
+
+[tooling]
+uv = "uv"
+ruff = "ruff"
+pytest = "pytest"
+pyright = "pyright"
+uvicorn = "uvicorn"
+
+[dev]
+reload = true
+watch = ["src", "tests"]
+debounce_ms = 200
+
+[run]
+app = "app.main:app"
+host = "127.0.0.1"
+port = 8000
+
+[checks]
+pipeline = ["lint", "type", "test"]
+stop_on_first_failure = true
