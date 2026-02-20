@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyqck"
 version = "0.1.0"
-description = "Developer toolchain for Python APIs"
+description = "PyQuick is the developer toolchain for Python APIs"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }

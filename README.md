@@ -1,6 +1,6 @@
 # PyQuick
 
-The developer toolchain for Python APIs.
+PyQuick is the developer toolchain for Python APIs.
 
 ## TL;DR
 
