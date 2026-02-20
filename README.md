@@ -136,6 +136,7 @@ pyignite check
 - Alpha quickstart: `docs/quickstart-alpha.md`
 - Alpha troubleshooting: `docs/troubleshooting-alpha.md`
 - Alpha feedback template: `docs/alpha-feedback-template.md`
+- Alpha release checklist: `docs/release-alpha-checklist.md`
 
 ---
 
