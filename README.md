@@ -130,6 +130,8 @@ pyignite check
 - Dev incremental checks behavior: `docs/devloop-incremental-checks.md`
 - Dev loop terminal UX: `docs/devloop-terminal-ux.md`
 - E2E testing guide: `docs/e2e-testing.md`
+- Performance benchmarks: `docs/perf-benchmarks.md`
+- Alpha perf baseline: `docs/perf-baseline-alpha.md`
 
 ---
 

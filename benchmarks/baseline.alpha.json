@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-20T08:25:06.396464+00:00",
+    "python": "3.12.12",
+    "platform": "linux",
+    "commit": "4e8edc6"
+  },
+  "scenarios": {
+    "startup_run": {
+      "samples_ms": [
+        1500.43,
+        1500.86,
+        1500.7
+      ],
+      "p50_ms": 1500.7,
+      "p95_ms": 1500.86
+    },
+    "save_to_feedback_incremental_test_change": {
+      "samples_ms": [
+        845.76,
+        576.72,
+        582.73
+      ],
+      "p50_ms": 582.73,
+      "p95_ms": 845.76
+    }
+  }
+}
