@@ -1,9 +1,11 @@
 # ADR 0002: Standalone CLI, Delegated Packaging Backend
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [ADR Index](README.md)
+
 - Status: Accepted
 - Date: 2026-02-20
 - Owners: PyIgnite maintainers
-- Related: `docs/getting-started/quickstart-alpha.md`, milestone M5 planning
+- Related: [Alpha quickstart](../getting-started/quickstart-alpha.md), milestone M5 planning
 
 ## Context
 
@@ -43,3 +45,8 @@ PyIgnite aims to feel like a standalone product CLI. Current alpha workflows rel
   - add `pyignite install` wrapper command
   - define backend interface (`sync`, `exec_tool`, `doctor`) behind command execution
   - retain strict determinism and actionable failure diagnostics
+
+## See Also
+
+- [ADR index](README.md)
+- [Release checklist](../release/release-alpha-checklist.md)

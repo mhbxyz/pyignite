@@ -1,5 +1,7 @@
 # Dev Loop Incremental Checks
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Dev Loop](README.md)
+
 PyIgnite uses staged feedback in `pyignite dev` to keep save-to-feedback fast while preserving correctness.
 
 ## Modes
@@ -44,3 +46,8 @@ uv run python scripts/benchmark_devloop_checks.py
 ```
 
 The script prints aggregate baseline vs incremental cost estimates using fixed per-step cost assumptions.
+
+## See Also
+
+- [Dev Loop index](README.md)
+- [Terminal UX model](terminal-ux.md)

@@ -1,5 +1,7 @@
 # Performance Benchmarks
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Quality and Performance](README.md)
+
 PyIgnite includes repeatable performance scenarios and regression guardrails.
 
 ## Scenarios
@@ -32,3 +34,8 @@ When intentional performance changes are accepted:
 - Benchmarks run on local hardware and include subprocess overhead.
 - Expect small variance between runs; guardrails are tuned for significant regressions.
 - Run on an idle machine when possible for stable measurements.
+
+## See Also
+
+- [Quality and Performance index](README.md)
+- [Alpha performance baseline](perf-baseline-alpha.md)

@@ -1,5 +1,7 @@
 # PyIgnite v1 Command Contract
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Reference](README.md)
+
 Status: Accepted for milestone M1.
 
 This document defines the guaranteed behavior for v1 alpha commands and the shared execution conventions.
@@ -52,7 +54,7 @@ The following are explicitly out of scope for v1 and must not be introduced duri
 - Database scaffolding by default.
 - Advanced CI generation.
 
-See decision record: `docs/adr/0001-defer-v1-non-goals.md`.
+See decision record: [ADR 0001](../adr/0001-defer-v1-non-goals.md).
 
 ## Implementation Mapping (M1)
 
@@ -76,3 +78,8 @@ This section makes #1 directly testable against follow-up issues.
 - Non-goals are documented and link to an ADR.
 - Error messaging format is consistent and actionable.
 - The contract can be consumed in one page by maintainers.
+
+## See Also
+
+- [Reference index](README.md)
+- [Config example](examples/pyignite.toml)

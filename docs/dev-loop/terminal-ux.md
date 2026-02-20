@@ -1,5 +1,7 @@
 # Dev Loop Terminal UX
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Dev Loop](README.md)
+
 This document defines the `pyignite dev` output model for long-running sessions.
 
 ## Goals
@@ -52,3 +54,8 @@ Summary #6: failed on lint after 70ms
 - Limit changed file preview to first 3 files, then summarize the remainder.
 - Print compact details excerpt (max 8 non-empty lines) on failed steps.
 - Avoid full tool logs during successful steps.
+
+## See Also
+
+- [Dev Loop index](README.md)
+- [Incremental checks](incremental-checks.md)

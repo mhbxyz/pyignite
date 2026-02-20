@@ -1,5 +1,7 @@
 # FastAPI Scaffold Template (No DB)
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Reference](README.md)
+
 This document defines the generated structure for the v1 FastAPI scaffold profile.
 
 ## Generated layout
@@ -44,3 +46,8 @@ No database stack is generated in this template:
 - no ORM dependencies
 - no migration setup
 - no DB connection configuration
+
+## See Also
+
+- [Reference index](README.md)
+- [Command contract v1](command-contract-v1.md)

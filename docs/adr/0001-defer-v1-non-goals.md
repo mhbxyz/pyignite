@@ -1,9 +1,16 @@
 # ADR 0001: Defer v1 Non-Goals
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [ADR Index](README.md)
+
 - Status: Accepted
 - Date: 2026-02-19
 - Owners: PyIgnite maintainers
-- Related: `docs/reference/command-contract-v1.md`, milestone M1 issue #1
+- Related: [Command contract v1](../reference/command-contract-v1.md), milestone M1 issue #1
+
+## See Also
+
+- [ADR index](README.md)
+- [ADR 0002](0002-standalone-cli-delegated-packaging.md)
 
 ## Context
 

@@ -1,5 +1,7 @@
 # E2E Testing Guide
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Quality and Performance](README.md)
+
 End-to-end tests validate the core API workflow across command boundaries.
 
 ## Command target
@@ -43,3 +45,8 @@ uv run pytest tests/e2e/test_api_workflow_e2e.py -q
 ```bash
 uv run pytest tests/e2e -s
 ```
+
+## See Also
+
+- [Quality and Performance index](README.md)
+- [Performance benchmarks](perf-benchmarks.md)

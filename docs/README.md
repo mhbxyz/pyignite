@@ -1,37 +1,45 @@
 # Documentation Index
 
+[Project README](../README.md)
+
 Use this page as the primary entry point for project docs.
 
 ## Getting Started
 
-- Alpha quickstart: `docs/getting-started/quickstart-alpha.md`
-- Alpha troubleshooting: `docs/getting-started/troubleshooting-alpha.md`
+- Section index: [Getting Started](getting-started/README.md)
+- Alpha quickstart: [quickstart-alpha.md](getting-started/quickstart-alpha.md)
+- Alpha troubleshooting: [troubleshooting-alpha.md](getting-started/troubleshooting-alpha.md)
 
 ## Reference
 
-- Command contract v1: `docs/reference/command-contract-v1.md`
-- FastAPI scaffold layout: `docs/reference/fastapi-scaffold-template.md`
-- Config example: `docs/reference/examples/pyignite.toml`
+- Section index: [Reference](reference/README.md)
+- Command contract v1: [command-contract-v1.md](reference/command-contract-v1.md)
+- FastAPI scaffold layout: [fastapi-scaffold-template.md](reference/fastapi-scaffold-template.md)
+- Config example: [examples/pyignite.toml](reference/examples/pyignite.toml)
 
 ## Dev Loop
 
-- Incremental checks strategy: `docs/dev-loop/incremental-checks.md`
-- Terminal UX model: `docs/dev-loop/terminal-ux.md`
+- Section index: [Dev Loop](dev-loop/README.md)
+- Incremental checks strategy: [incremental-checks.md](dev-loop/incremental-checks.md)
+- Terminal UX model: [terminal-ux.md](dev-loop/terminal-ux.md)
 
 ## Quality and Performance
 
-- E2E testing guide: `docs/quality/e2e-testing.md`
-- Performance benchmarks: `docs/quality/perf-benchmarks.md`
-- Alpha performance baseline: `docs/quality/perf-baseline-alpha.md`
+- Section index: [Quality and Performance](quality/README.md)
+- E2E testing guide: [e2e-testing.md](quality/e2e-testing.md)
+- Performance benchmarks: [perf-benchmarks.md](quality/perf-benchmarks.md)
+- Alpha performance baseline: [perf-baseline-alpha.md](quality/perf-baseline-alpha.md)
 
 ## Release and Feedback
 
-- Alpha release checklist: `docs/release/release-alpha-checklist.md`
-- Alpha feedback template: `docs/release/alpha-feedback-template.md`
-- Alpha triage process: `docs/release/triage-alpha-process.md`
-- Post-alpha roadmap: `docs/release/post-alpha-roadmap.md`
+- Section index: [Release and Feedback](release/README.md)
+- Alpha release checklist: [release-alpha-checklist.md](release/release-alpha-checklist.md)
+- Alpha feedback template: [alpha-feedback-template.md](release/alpha-feedback-template.md)
+- Alpha triage process: [triage-alpha-process.md](release/triage-alpha-process.md)
+- Post-alpha roadmap: [post-alpha-roadmap.md](release/post-alpha-roadmap.md)
 
 ## ADR
 
-- v1 non-goals: `docs/adr/0001-defer-v1-non-goals.md`
-- Standalone UX + delegated backend: `docs/adr/0002-standalone-cli-delegated-packaging.md`
+- Section index: [Architecture Decisions](adr/README.md)
+- v1 non-goals: [0001-defer-v1-non-goals.md](adr/0001-defer-v1-non-goals.md)
+- Standalone UX + delegated backend: [0002-standalone-cli-delegated-packaging.md](adr/0002-standalone-cli-delegated-packaging.md)

@@ -1,5 +1,7 @@
 # Alpha Triage Process
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Release and Feedback](README.md)
+
 This process converts internal alpha feedback into prioritized product work.
 
 ## Intake channel
@@ -80,4 +82,9 @@ At the end of each triage cycle, publish:
 - accepted follow-up issues with priority
 - deferred items with rationale
 
-Update `docs/release/post-alpha-roadmap.md` with ranked items from the latest cycle.
+Update [Post-alpha roadmap](post-alpha-roadmap.md) with ranked items from the latest cycle.
+
+## See Also
+
+- [Release and Feedback index](README.md)
+- [Alpha feedback template](alpha-feedback-template.md)

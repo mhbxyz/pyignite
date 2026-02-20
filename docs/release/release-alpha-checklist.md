@@ -1,5 +1,7 @@
 # Internal Alpha Release Checklist
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Release and Feedback](README.md)
+
 Use this checklist to run a repeatable, auditable go/no-go process for internal alpha.
 
 ## Release scope
@@ -41,7 +43,7 @@ Run in order on a clean local environment:
 3. `scripts/run_e2e.sh`
 4. `scripts/run_benchmarks.sh`
 5. `uv run pyignite --help` (command surface check)
-6. Quickstart dry-run using `docs/getting-started/quickstart-alpha.md`
+6. Quickstart dry-run using [Alpha quickstart](../getting-started/quickstart-alpha.md)
 
 Record rehearsal outcome:
 
@@ -57,14 +59,14 @@ Record rehearsal outcome:
 3. Publish internal announcement including:
    - alpha scope
    - known constraints (including delegated `uv` backend)
-   - how to onboard (`docs/getting-started/quickstart-alpha.md`)
-   - where to report feedback (`.github/ISSUE_TEMPLATE/alpha-feedback.yml` and `docs/release/alpha-feedback-template.md`)
+   - how to onboard ([Alpha quickstart](../getting-started/quickstart-alpha.md))
+   - where to report feedback ([issue template](../../.github/ISSUE_TEMPLATE/alpha-feedback.yml) and [Alpha feedback template](alpha-feedback-template.md))
 
 ## Feedback/Triage Loop (post-release)
 
 1. Collect feedback through the alpha issue template.
-2. Run triage using `docs/release/triage-alpha-process.md`.
-3. Update ranked backlog in `docs/release/post-alpha-roadmap.md` after each cycle.
+2. Run triage using [Alpha triage process](triage-alpha-process.md).
+3. Update ranked backlog in [Post-alpha roadmap](post-alpha-roadmap.md) after each cycle.
 
 ## Rollback and Contingency
 
@@ -83,3 +85,8 @@ Contingency actions:
 5. Re-announce only after all blocked gates are green.
 
 Decision timebox for blocker triage: within 24 hours.
+
+## See Also
+
+- [Release and Feedback index](README.md)
+- [Alpha triage process](triage-alpha-process.md)

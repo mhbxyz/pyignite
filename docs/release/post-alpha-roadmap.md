@@ -1,6 +1,8 @@
 # Post-Alpha Roadmap (Ranked)
 
-This document is updated after each alpha triage cycle using the rubric from `docs/release/triage-alpha-process.md`.
+[Project README](../../README.md) · [Docs Index](../README.md) · [Release and Feedback](README.md)
+
+This document is updated after each alpha triage cycle using the rubric from [Alpha triage process](triage-alpha-process.md).
 
 ## How to update
 
@@ -27,3 +29,8 @@ For each accepted feedback item:
 
 - Use this as the source for beta planning discussions.
 - Keep rationale short and evidence-based (issue links, repro notes, affected workflow).
+
+## See Also
+
+- [Release and Feedback index](README.md)
+- [Alpha release checklist](release-alpha-checklist.md)

@@ -1,5 +1,7 @@
 # Alpha Troubleshooting
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Getting Started](README.md)
+
 Use this guide when the quickstart flow fails.
 
 ## Why do project commands use `uv run pyignite ...`?
@@ -9,7 +11,7 @@ In alpha, PyIgnite delegates environment/package execution to `uv` while keeping
 - `pyignite` handles orchestration and diagnostics
 - `uv` handles environment and tool execution consistency
 
-See `docs/adr/0002-standalone-cli-delegated-packaging.md` for the architecture decision.
+See [ADR 0002](../adr/0002-standalone-cli-delegated-packaging.md) for the architecture decision.
 
 ## `ERROR [config]` when running commands
 
@@ -27,7 +29,7 @@ Common causes:
 Fix:
 
 1. check `pyignite.toml` formatting
-2. compare against `docs/reference/examples/pyignite.toml`
+2. compare against [reference config example](../reference/examples/pyignite.toml)
 3. retry the command
 
 ## `ERROR [tooling]` about missing tool/runner
@@ -83,7 +85,7 @@ Common causes:
 
 Fix:
 
-1. review `docs/dev-loop/incremental-checks.md`
+1. review [Dev Loop incremental checks](../dev-loop/incremental-checks.md)
 2. set `[dev].checks_mode = "incremental"`
 3. tune `[dev].fallback_threshold` as needed
 
@@ -101,4 +103,9 @@ Fix:
 
 ## Still blocked?
 
-Report with `docs/release/alpha-feedback-template.md` so maintainers can reproduce quickly.
+Report with [Alpha feedback template](../release/alpha-feedback-template.md) so maintainers can reproduce quickly.
+
+## See Also
+
+- [Getting Started index](README.md)
+- [Alpha quickstart](quickstart-alpha.md)

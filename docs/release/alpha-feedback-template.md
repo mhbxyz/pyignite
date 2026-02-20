@@ -1,9 +1,11 @@
 # Alpha Feedback Template
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Release and Feedback](README.md)
+
 Use this template when reporting internal alpha feedback.
 
-Prefer opening feedback with the GitHub issue form at `.github/ISSUE_TEMPLATE/alpha-feedback.yml`.
-Triage and prioritization rules are defined in `docs/release/triage-alpha-process.md`.
+Prefer opening feedback with the GitHub issue form at [`.github/ISSUE_TEMPLATE/alpha-feedback.yml`](../../.github/ISSUE_TEMPLATE/alpha-feedback.yml).
+Triage and prioritization rules are defined in [Alpha triage process](triage-alpha-process.md).
 
 ## Title format
 
@@ -63,3 +65,8 @@ Examples:
 - [ ] I stated expected vs actual behavior
 - [ ] I provided reproducibility details
 - [ ] I assigned severity
+
+## See Also
+
+- [Release and Feedback index](README.md)
+- [Post-alpha roadmap](post-alpha-roadmap.md)

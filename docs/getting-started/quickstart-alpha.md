@@ -1,5 +1,7 @@
 # Alpha Quickstart
 
+[Project README](../../README.md) · [Docs Index](../README.md) · [Getting Started](README.md)
+
 Goal: run your first PyIgnite API project in under 10 minutes.
 
 ## Execution model (important)
@@ -97,4 +99,9 @@ Expected result:
 
 ## If something fails
 
-Use `docs/getting-started/troubleshooting-alpha.md` for common fixes, then report issues with `docs/release/alpha-feedback-template.md`.
+Use [Alpha troubleshooting](troubleshooting-alpha.md) for common fixes, then report issues with [Alpha feedback template](../release/alpha-feedback-template.md).
+
+## See Also
+
+- [Getting Started index](README.md)
+- [Release and feedback docs](../release/README.md)
