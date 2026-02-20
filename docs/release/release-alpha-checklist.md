@@ -56,7 +56,8 @@ Record rehearsal outcome:
 
 1. Confirm release commit hash and milestone closure state.
 2. Confirm docs links resolve from `README.md`.
-3. Publish internal announcement including:
+3. Confirm trusted publishing configuration from [PyPI trusted publishing](pypi-publishing.md).
+4. Publish internal announcement including:
    - alpha scope
    - known constraints (including delegated `uv` backend)
    - how to onboard ([Alpha quickstart](../getting-started/quickstart-alpha.md))

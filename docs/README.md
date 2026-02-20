@@ -37,6 +37,7 @@ Use this page as the primary entry point for project docs.
 - Alpha feedback template: [alpha-feedback-template.md](release/alpha-feedback-template.md)
 - Alpha triage process: [triage-alpha-process.md](release/triage-alpha-process.md)
 - Post-alpha roadmap: [post-alpha-roadmap.md](release/post-alpha-roadmap.md)
+- PyPI trusted publishing: [pypi-publishing.md](release/pypi-publishing.md)
 
 ## ADR
 

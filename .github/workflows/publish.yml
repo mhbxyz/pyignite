@@ -1,0 +1,102 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Build package artifacts
+        run: uv build
+
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*
+
+  publish-testpypi:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: testpypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  verify-testpypi-install:
+    runs-on: ubuntu-latest
+    needs: publish-testpypi
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Wait for package indexing
+        run: sleep 30
+
+      - name: Install from TestPyPI and smoke test
+        env:
+          PKG_VERSION: ${{ github.ref_name }}
+        run: |
+          VERSION="${PKG_VERSION#v}"
+          python -m venv .venv-smoke
+          . .venv-smoke/bin/activate
+          python -m pip install --upgrade pip
+          for attempt in 1 2 3 4 5; do
+            if python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pyqck=="${VERSION}"; then
+              break
+            fi
+            if [ "$attempt" -eq 5 ]; then
+              echo "Failed to install pyqck==${VERSION} from TestPyPI"
+              exit 1
+            fi
+            sleep 20
+          done
+          pyqck --help
+
+  publish-pypi:
+    runs-on: ubuntu-latest
+    needs: verify-testpypi-install
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

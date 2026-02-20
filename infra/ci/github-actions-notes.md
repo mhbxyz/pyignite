@@ -9,5 +9,7 @@ Planned baseline pipeline stages:
 - test (pytest)
 - e2e (`scripts/run_e2e.sh`)
 - perf guardrails (`scripts/run_benchmarks.sh`, fail mode)
+- package build validation (`.github/workflows/python-package.yml`)
+- trusted publishing (`.github/workflows/publish.yml`, TestPyPI -> PyPI)
 
 This file documents the intended shape before a full workflow is added.

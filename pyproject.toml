@@ -10,11 +10,27 @@ readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "PyQuick Team" }]
+keywords = ["python", "cli", "toolchain", "scaffold", "developer-experience"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Code Generators",
+]
 dependencies = [
   "rich>=13.9.0",
   "typer>=0.16.0",
   "watchfiles>=1.1.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/mhbxyz/pyquick"
+Repository = "https://github.com/mhbxyz/pyquick"
+Issues = "https://github.com/mhbxyz/pyquick/issues"
+Documentation = "https://github.com/mhbxyz/pyquick/tree/main/docs"
 
 [project.optional-dependencies]
 dev = [
