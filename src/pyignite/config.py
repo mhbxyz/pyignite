@@ -31,6 +31,8 @@ class DevSection:
     reload: bool = True
     watch: tuple[str, ...] = ("src", "tests")
     debounce_ms: int = 200
+    checks_mode: str = "incremental"
+    fallback_threshold: int = 8
 
 
 @dataclass(slots=True, frozen=True)
@@ -191,7 +193,11 @@ def _parse_tooling(raw: dict[str, Any]) -> ToolingSection:
 
 
 def _parse_dev(raw: dict[str, Any]) -> DevSection:
-    _assert_allowed_keys(raw, {"reload", "watch", "debounce_ms"}, context="[dev]")
+    _assert_allowed_keys(
+        raw,
+        {"reload", "watch", "debounce_ms", "checks_mode", "fallback_threshold"},
+        context="[dev]",
+    )
 
     reload_enabled = _read_bool(raw, "reload", default=True, context="[dev]")
     debounce_ms = _read_int(raw, "debounce_ms", default=200, context="[dev]")
@@ -208,7 +214,27 @@ def _parse_dev(raw: dict[str, Any]) -> DevSection:
             'Set `watch = ["src"]` or another non-empty list.',
         )
 
-    return DevSection(reload=reload_enabled, watch=tuple(watch), debounce_ms=debounce_ms)
+    checks_mode = _read_string(raw, "checks_mode", default="incremental", context="[dev]")
+    if checks_mode not in {"incremental", "full"}:
+        raise ConfigError(
+            "`[dev].checks_mode` must be `incremental` or `full`.",
+            'Set `checks_mode = "incremental"` or `checks_mode = "full"`.',
+        )
+
+    fallback_threshold = _read_int(raw, "fallback_threshold", default=8, context="[dev]")
+    if fallback_threshold < 1:
+        raise ConfigError(
+            "`[dev].fallback_threshold` must be >= 1.",
+            "Set `fallback_threshold` to a positive integer.",
+        )
+
+    return DevSection(
+        reload=reload_enabled,
+        watch=tuple(watch),
+        debounce_ms=debounce_ms,
+        checks_mode=checks_mode,
+        fallback_threshold=fallback_threshold,
+    )
 
 
 def _parse_run(raw: dict[str, Any], *, project: ProjectSection) -> RunSection:

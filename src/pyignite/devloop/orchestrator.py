@@ -7,6 +7,7 @@ from typing import Callable, Iterable, Sequence
 import typer
 from watchfiles import watch
 
+from pyignite.devloop.incremental import resolve_check_plan
 from pyignite.tooling import ToolAdapters, ToolError, ToolKey
 
 IGNORED_PARTS = {"__pycache__", ".pytest_cache", ".ruff_cache", ".pyright", ".venv", ".git"}
@@ -57,7 +58,7 @@ def run_dev_loop(
                 popen_factory=popen_factory,
             )
 
-            _run_feedback_checks(adapters)
+            _run_feedback_checks(adapters, changed_files=changed_files)
     except KeyboardInterrupt:
         typer.secho("Stopping dev loop...", fg=typer.colors.YELLOW)
     finally:
@@ -87,17 +88,23 @@ def _stop_process(process: subprocess.Popen[bytes]) -> None:
         process.wait(timeout=3)
 
 
-def _run_feedback_checks(adapters: ToolAdapters) -> None:
-    pipeline = (
-        ("lint", ToolKey.LINTING, ("check", ".")),
-        ("type", ToolKey.TYPING, ()),
-        ("test", ToolKey.TESTING, ()),
+def _run_feedback_checks(adapters: ToolAdapters, *, changed_files: Sequence[str]) -> None:
+    plan = resolve_check_plan(
+        changed_files,
+        checks_mode=adapters.config.dev.checks_mode,
+        fallback_threshold=adapters.config.dev.fallback_threshold,
     )
 
-    for step_name, tool_key, args in pipeline:
-        typer.secho(f"Running [{step_name}]...", fg=typer.colors.CYAN)
+    if not plan.steps:
+        typer.secho("No relevant checks for this change set.", fg=typer.colors.BLUE)
+        return
+
+    typer.secho(f"Checks mode: {plan.mode} ({plan.reason})", fg=typer.colors.BLUE)
+
+    for step in plan.steps:
+        typer.secho(f"Running [{step.name}]...", fg=typer.colors.CYAN)
         try:
-            result = adapters.run(tool_key, args=args)
+            result = adapters.run(step.key, args=step.args)
         except ToolError as exc:
             typer.secho(f"ERROR [tooling] {exc.message}", fg=typer.colors.RED, err=True)
             typer.secho(f"Hint: {exc.hint}", fg=typer.colors.YELLOW, err=True)
@@ -109,11 +116,11 @@ def _run_feedback_checks(adapters: ToolAdapters) -> None:
             typer.echo(result.stderr, err=True, nl=False)
 
         if result.exit_code == 0:
-            typer.secho(f"OK [{step_name}]", fg=typer.colors.GREEN)
+            typer.secho(f"OK [{step.name}]", fg=typer.colors.GREEN)
             continue
 
         typer.secho(
-            f"FAILED [{step_name}] exit code {result.exit_code}", fg=typer.colors.RED, err=True
+            f"FAILED [{step.name}] exit code {result.exit_code}", fg=typer.colors.RED, err=True
         )
         if adapters.config.checks.stop_on_first_failure:
             return

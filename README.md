@@ -127,6 +127,7 @@ pyignite check
 - Deferred scope ADR: `docs/adr/0001-defer-v1-non-goals.md`
 - Config example (API profile): `docs/examples/pyignite.toml`
 - FastAPI scaffold layout: `docs/fastapi-scaffold-template.md`
+- Dev incremental checks behavior: `docs/devloop-incremental-checks.md`
 
 ---
 

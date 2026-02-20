@@ -47,7 +47,12 @@ class FakeAdapters:
     ) -> None:
         self.config = SimpleNamespace(
             root_dir=root_dir,
-            dev=SimpleNamespace(watch=("src", "tests"), debounce_ms=120),
+            dev=SimpleNamespace(
+                watch=("src", "tests"),
+                debounce_ms=120,
+                checks_mode="incremental",
+                fallback_threshold=8,
+            ),
             run=SimpleNamespace(app="myapi.main:app", host="127.0.0.1", port=8000),
             checks=SimpleNamespace(stop_on_first_failure=stop_on_first),
         )
@@ -91,7 +96,7 @@ def test_dev_loop_single_burst_triggers_one_reload_and_check_pipeline(tmp_path: 
 
     assert len(popen_factory.calls) == 2
     assert adapters.run_calls == [
-        (ToolKey.LINTING, ("check", ".")),
+        (ToolKey.LINTING, ("check", "src/app.py", "tests/test_api.py")),
         (ToolKey.TYPING, ()),
         (ToolKey.TESTING, ()),
     ]
@@ -124,8 +129,8 @@ def test_dev_loop_ignores_cache_noise_and_stays_stable_after_failures(tmp_path: 
 
     assert len(popen_factory.calls) == 3
     assert adapters.run_calls == [
-        (ToolKey.LINTING, ("check", ".")),
-        (ToolKey.LINTING, ("check", ".")),
+        (ToolKey.LINTING, ("check", "src/service.py")),
+        (ToolKey.LINTING, ("check", "src/service.py")),
         (ToolKey.TYPING, ()),
         (ToolKey.TESTING, ()),
     ]

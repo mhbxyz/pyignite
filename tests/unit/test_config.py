@@ -21,6 +21,8 @@ def test_load_config_returns_defaults_when_file_missing(tmp_path: Path) -> None:
     assert config.tooling.running == "uvicorn"
     assert config.run.app == "myapi.main:app"
     assert config.dev.watch == ("src", "tests")
+    assert config.dev.checks_mode == "incremental"
+    assert config.dev.fallback_threshold == 8
     assert config.checks.pipeline == ("lint", "type", "test")
 
 
@@ -120,6 +122,47 @@ reload = "yes"
     )
 
     with pytest.raises(ConfigError, match="must be a boolean"):
+        load_config(tmp_path)
+
+
+def test_load_config_accepts_valid_dev_incremental_values(tmp_path: Path) -> None:
+    _write_config(
+        tmp_path,
+        """
+[dev]
+checks_mode = "full"
+fallback_threshold = 3
+""".strip(),
+    )
+
+    config = load_config(tmp_path)
+    assert config.dev.checks_mode == "full"
+    assert config.dev.fallback_threshold == 3
+
+
+def test_load_config_rejects_invalid_dev_checks_mode(tmp_path: Path) -> None:
+    _write_config(
+        tmp_path,
+        """
+[dev]
+checks_mode = "aggressive"
+""".strip(),
+    )
+
+    with pytest.raises(ConfigError, match="checks_mode"):
+        load_config(tmp_path)
+
+
+def test_load_config_rejects_invalid_dev_fallback_threshold(tmp_path: Path) -> None:
+    _write_config(
+        tmp_path,
+        """
+[dev]
+fallback_threshold = 0
+""".strip(),
+    )
+
+    with pytest.raises(ConfigError, match="fallback_threshold"):
         load_config(tmp_path)
 
 

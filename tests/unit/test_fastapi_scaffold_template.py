@@ -28,6 +28,8 @@ def test_fastapi_template_sets_run_app_path_to_package_main() -> None:
 
     pyignite_toml = files[Path("pyignite.toml")]
     assert 'app = "billing_service.main:app"' in pyignite_toml
+    assert 'checks_mode = "incremental"' in pyignite_toml
+    assert "fallback_threshold = 8" in pyignite_toml
 
 
 def test_fastapi_template_does_not_include_db_dependencies_or_files() -> None:

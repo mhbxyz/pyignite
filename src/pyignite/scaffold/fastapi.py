@@ -147,6 +147,13 @@ port = 8000
 [checks]
 pipeline = ["lint", "type", "test"]
 stop_on_first_failure = true
+
+[dev]
+reload = true
+watch = ["src", "tests"]
+debounce_ms = 200
+checks_mode = "incremental"
+fallback_threshold = 8
 """
 
 

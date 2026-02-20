@@ -14,6 +14,8 @@ running = "uvicorn"
 reload = true
 watch = ["src", "tests"]
 debounce_ms = 200
+checks_mode = "incremental"
+fallback_threshold = 8
 
 [run]
 app = "app.main:app"
