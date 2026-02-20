@@ -1,12 +1,12 @@
 import typer
 
-from pyignite.commands._common import build_adapters_or_exit, ensure_tool_available_or_exit
+from pyignite.commands._common import build_adapters_or_exit, run_tool_or_exit
 from pyignite.tooling import ToolKey
 
 
-def fmt_command() -> None:
+def fmt_command(ctx: typer.Context) -> None:
     """Run code formatting."""
 
     adapters = build_adapters_or_exit()
-    ensure_tool_available_or_exit(adapters, ToolKey.LINTING)
-    typer.secho("`pyignite fmt` is a stub for now.", fg=typer.colors.YELLOW)
+    args = tuple(ctx.args) if ctx.args else ("format", ".")
+    run_tool_or_exit(adapters, ToolKey.LINTING, args=args, label="fmt")

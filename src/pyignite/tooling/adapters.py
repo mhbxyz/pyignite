@@ -66,6 +66,10 @@ class ToolAdapters:
         self._runner = runner or SubprocessRunner()
         self._which = which or shutil.which
 
+    @property
+    def config(self) -> PyIgniteConfig:
+        return self._config
+
     def spec(self, key: ToolKey) -> ToolSpec:
         executable = {
             ToolKey.PACKAGING: self._config.tooling.packaging,
