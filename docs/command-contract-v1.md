@@ -64,6 +64,7 @@ This section makes #1 directly testable against follow-up issues.
 - `#3` tool adapters:
   - Standardize subprocess error reporting with `[tooling]` category and hint.
   - Propagate subprocess exit behavior into command result (`1` on tool failure).
+  - Resolve tools through semantic config keys: `packaging`, `linting`, `testing`, `typing`, `running`.
 - `#4` command wrappers:
   - Match command names and purpose exactly.
   - Emit consistent final status lines and deterministic pipeline order for `check`.
