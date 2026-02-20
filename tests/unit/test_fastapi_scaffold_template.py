@@ -16,7 +16,9 @@ def test_fastapi_template_uses_project_named_package() -> None:
 
     assert context.package_name == "my_api"
     assert Path("src/my_api/main.py") in files
+    assert Path("src/my_api/api/health.py") in files
     assert Path("src/my_api/api/router.py") in files
+    assert Path("tests/test_health.py") in files
     assert Path("pyignite.toml") in files
 
 
@@ -52,6 +54,26 @@ def test_fastapi_template_contains_project_metadata_and_quality_defaults() -> No
     assert "pytest" in pyproject
     assert "ruff" in pyproject
     assert "pyright" in pyproject
+
+
+def test_fastapi_template_includes_deterministic_health_endpoint() -> None:
+    context = FastAPITemplateContext.from_project_name("myapi")
+    files = build_fastapi_template(context)
+
+    health_module = files[Path("src/myapi/api/health.py")]
+    assert '@router.get("/health")' in health_module
+    assert 'return {"status": "ok"}' in health_module
+
+
+def test_fastapi_template_generates_health_baseline_test() -> None:
+    context = FastAPITemplateContext.from_project_name("myapi")
+    files = build_fastapi_template(context)
+
+    health_test = files[Path("tests/test_health.py")]
+    assert "from fastapi.testclient import TestClient" in health_test
+    assert 'client.get("/health")' in health_test
+    assert "assert response.status_code == 200" in health_test
+    assert 'assert response.json() == {"status": "ok"}' in health_test
 
 
 def test_fastapi_template_puts_application_python_code_under_src() -> None:

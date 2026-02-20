@@ -16,9 +16,11 @@ This document defines the generated structure for the v1 FastAPI scaffold profil
 │       ├── main.py
 │       └── api/
 │           ├── __init__.py
+│           ├── health.py
 │           └── router.py
 └── tests/
-    └── __init__.py
+    ├── __init__.py
+    └── test_health.py
 ```
 
 `<project_package>` is derived from the project name and normalized to a valid Python package identifier.
@@ -27,6 +29,7 @@ This document defines the generated structure for the v1 FastAPI scaffold profil
 
 - `run.app` defaults to `<project_package>.main:app`
 - Host/port defaults remain in `pyignite.toml`
+- `GET /health` returns deterministic JSON: `{"status": "ok"}`
 
 ## Extension points
 
