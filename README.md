@@ -126,6 +126,7 @@ pyignite check
 - Command contract: `docs/command-contract-v1.md`
 - Deferred scope ADR: `docs/adr/0001-defer-v1-non-goals.md`
 - Config example (API profile): `docs/examples/pyignite.toml`
+- FastAPI scaffold layout: `docs/fastapi-scaffold-template.md`
 
 ---
 
