@@ -3,7 +3,7 @@
 - Status: Accepted
 - Date: 2026-02-19
 - Owners: PyIgnite maintainers
-- Related: `docs/command-contract-v1.md`, milestone M1 issue #1
+- Related: `docs/reference/command-contract-v1.md`, milestone M1 issue #1
 
 ## Context
 

@@ -1,6 +1,6 @@
 # Post-Alpha Roadmap (Ranked)
 
-This document is updated after each alpha triage cycle using the rubric from `docs/triage-alpha-process.md`.
+This document is updated after each alpha triage cycle using the rubric from `docs/release/triage-alpha-process.md`.
 
 ## How to update
 

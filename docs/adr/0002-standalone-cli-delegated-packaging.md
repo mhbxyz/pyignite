@@ -3,7 +3,7 @@
 - Status: Accepted
 - Date: 2026-02-20
 - Owners: PyIgnite maintainers
-- Related: `docs/quickstart-alpha.md`, milestone M5 planning
+- Related: `docs/getting-started/quickstart-alpha.md`, milestone M5 planning
 
 ## Context
 

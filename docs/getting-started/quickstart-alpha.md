@@ -97,4 +97,4 @@ Expected result:
 
 ## If something fails
 
-Use `docs/troubleshooting-alpha.md` for common fixes, then report issues with `docs/alpha-feedback-template.md`.
+Use `docs/getting-started/troubleshooting-alpha.md` for common fixes, then report issues with `docs/release/alpha-feedback-template.md`.

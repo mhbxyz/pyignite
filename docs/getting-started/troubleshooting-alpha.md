@@ -27,7 +27,7 @@ Common causes:
 Fix:
 
 1. check `pyignite.toml` formatting
-2. compare against `docs/examples/pyignite.toml`
+2. compare against `docs/reference/examples/pyignite.toml`
 3. retry the command
 
 ## `ERROR [tooling]` about missing tool/runner
@@ -83,7 +83,7 @@ Common causes:
 
 Fix:
 
-1. review `docs/devloop-incremental-checks.md`
+1. review `docs/dev-loop/incremental-checks.md`
 2. set `[dev].checks_mode = "incremental"`
 3. tune `[dev].fallback_threshold` as needed
 
@@ -101,4 +101,4 @@ Fix:
 
 ## Still blocked?
 
-Report with `docs/alpha-feedback-template.md` so maintainers can reproduce quickly.
+Report with `docs/release/alpha-feedback-template.md` so maintainers can reproduce quickly.

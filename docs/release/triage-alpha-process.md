@@ -80,4 +80,4 @@ At the end of each triage cycle, publish:
 - accepted follow-up issues with priority
 - deferred items with rationale
 
-Update `docs/post-alpha-roadmap.md` with ranked items from the latest cycle.
+Update `docs/release/post-alpha-roadmap.md` with ranked items from the latest cycle.
