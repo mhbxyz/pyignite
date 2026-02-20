@@ -2,12 +2,13 @@ from __future__ import annotations
 
 from pathlib import Path
 import subprocess
+import time
 from typing import Callable, Iterable, Sequence
 
-import typer
 from watchfiles import watch
 
 from pyignite.devloop.incremental import resolve_check_plan
+from pyignite.devloop.renderer import CycleSummary, DevLoopRenderer
 from pyignite.tooling import ToolAdapters, ToolError, ToolKey
 
 IGNORED_PARTS = {"__pycache__", ".pytest_cache", ".ruff_cache", ".pyright", ".venv", ".git"}
@@ -19,10 +20,12 @@ def run_dev_loop(
     *,
     watch_factory: Callable[..., Iterable[set[tuple[object, str]]]] = watch,
     popen_factory: Callable[..., subprocess.Popen[bytes]] = subprocess.Popen,
+    renderer: DevLoopRenderer | None = None,
 ) -> None:
     config = adapters.config
-    watch_paths = [config.root_dir / relative_path for relative_path in config.dev.watch]
+    renderer = renderer or DevLoopRenderer()
 
+    watch_paths = [config.root_dir / relative_path for relative_path in config.dev.watch]
     running_args = (
         config.run.app,
         "--host",
@@ -30,37 +33,51 @@ def run_dev_loop(
         "--port",
         str(config.run.port),
     )
-
     running_command = adapters.command(ToolKey.RUNNING, args=running_args)
 
-    typer.secho("Starting dev loop...", fg=typer.colors.CYAN)
-    typer.secho(f"Watching: {', '.join(config.dev.watch)}", fg=typer.colors.CYAN)
-
+    renderer.loop_started(config.dev.watch, config.dev.debounce_ms)
     server_process = _start_server(
-        command=running_command, cwd=config.root_dir, popen_factory=popen_factory
+        command=running_command,
+        cwd=config.root_dir,
+        popen_factory=popen_factory,
+        renderer=renderer,
     )
 
+    cycle_index = 0
     try:
         for changes in watch_factory(*watch_paths, debounce=config.dev.debounce_ms):
             changed_files = _filter_relevant_paths(changes=changes, root_dir=config.root_dir)
             if not changed_files:
                 continue
 
-            typer.secho(
-                f"Change detected ({len(changed_files)} file(s)); reloading server and running checks.",
-                fg=typer.colors.CYAN,
-            )
+            cycle_index += 1
+            renderer.cycle_started(cycle_index, changed_files)
+            started = time.perf_counter()
 
             _stop_process(server_process)
             server_process = _start_server(
                 command=running_command,
                 cwd=config.root_dir,
                 popen_factory=popen_factory,
+                renderer=renderer,
             )
 
-            _run_feedback_checks(adapters, changed_files=changed_files)
+            feedback = _run_feedback_checks(
+                adapters, changed_files=changed_files, renderer=renderer
+            )
+            renderer.cycle_summary(
+                CycleSummary(
+                    cycle=cycle_index,
+                    changed_files=tuple(changed_files),
+                    plan_mode=feedback["plan_mode"],
+                    plan_reason=feedback["plan_reason"],
+                    steps_run=tuple(feedback["steps_run"]),
+                    failed_step=feedback["failed_step"],
+                    duration_ms=int((time.perf_counter() - started) * 1000),
+                )
+            )
     except KeyboardInterrupt:
-        typer.secho("Stopping dev loop...", fg=typer.colors.YELLOW)
+        renderer.loop_stopped()
     finally:
         _stop_process(server_process)
 
@@ -70,9 +87,10 @@ def _start_server(
     command: Sequence[str],
     cwd: Path,
     popen_factory: Callable[..., subprocess.Popen[bytes]],
+    renderer: DevLoopRenderer,
 ) -> subprocess.Popen[bytes]:
     process = popen_factory(list(command), cwd=cwd)
-    typer.secho(f"Server started: {' '.join(command)}", fg=typer.colors.GREEN)
+    renderer.server_started(command)
     return process
 
 
@@ -88,42 +106,66 @@ def _stop_process(process: subprocess.Popen[bytes]) -> None:
         process.wait(timeout=3)
 
 
-def _run_feedback_checks(adapters: ToolAdapters, *, changed_files: Sequence[str]) -> None:
+def _run_feedback_checks(
+    adapters: ToolAdapters,
+    *,
+    changed_files: Sequence[str],
+    renderer: DevLoopRenderer,
+) -> dict[str, object]:
     plan = resolve_check_plan(
         changed_files,
         checks_mode=adapters.config.dev.checks_mode,
         fallback_threshold=adapters.config.dev.fallback_threshold,
     )
+    renderer.checks_plan(plan.mode, plan.reason, [step.name for step in plan.steps])
+
+    summary: dict[str, object] = {
+        "plan_mode": plan.mode,
+        "plan_reason": plan.reason,
+        "steps_run": [],
+        "failed_step": None,
+    }
 
     if not plan.steps:
-        typer.secho("No relevant checks for this change set.", fg=typer.colors.BLUE)
-        return
-
-    typer.secho(f"Checks mode: {plan.mode} ({plan.reason})", fg=typer.colors.BLUE)
+        return summary
 
     for step in plan.steps:
-        typer.secho(f"Running [{step.name}]...", fg=typer.colors.CYAN)
+        renderer.step_started(step.name)
+        started = time.perf_counter()
         try:
             result = adapters.run(step.key, args=step.args)
         except ToolError as exc:
-            typer.secho(f"ERROR [tooling] {exc.message}", fg=typer.colors.RED, err=True)
-            typer.secho(f"Hint: {exc.hint}", fg=typer.colors.YELLOW, err=True)
-            return
+            renderer.tool_error(exc.message, exc.hint)
+            summary["steps_run"].append(step.name)
+            summary["failed_step"] = step.name
+            return summary
 
-        if result.stdout:
-            typer.echo(result.stdout, nl=False)
-        if result.stderr:
-            typer.echo(result.stderr, err=True, nl=False)
+        duration_ms = int((time.perf_counter() - started) * 1000)
+        summary["steps_run"].append(step.name)
 
         if result.exit_code == 0:
-            typer.secho(f"OK [{step.name}]", fg=typer.colors.GREEN)
+            renderer.step_ok(step.name, duration_ms)
             continue
 
-        typer.secho(
-            f"FAILED [{step.name}] exit code {result.exit_code}", fg=typer.colors.RED, err=True
+        renderer.step_failed(
+            step.name,
+            result.exit_code,
+            duration_ms,
+            _build_output_excerpt(result.stdout, result.stderr),
         )
+        summary["failed_step"] = step.name
         if adapters.config.checks.stop_on_first_failure:
-            return
+            return summary
+
+    return summary
+
+
+def _build_output_excerpt(stdout: str, stderr: str, *, max_lines: int = 8) -> tuple[str, ...]:
+    source = stderr.strip() or stdout.strip()
+    if not source:
+        return ()
+    lines = [line for line in source.splitlines() if line.strip()]
+    return tuple(lines[:max_lines])
 
 
 def _filter_relevant_paths(*, changes: set[tuple[object, str]], root_dir: Path) -> list[str]:
