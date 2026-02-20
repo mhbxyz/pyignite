@@ -22,14 +22,14 @@ Symptoms:
 
 Common causes:
 
-- invalid TOML syntax in `pyqck.toml`
+- invalid TOML syntax in `pyquick.toml`
 - unsupported keys or wrong value types
 - invalid values (for example wrong `checks_mode`, invalid port)
 
 Fix:
 
-1. check `pyqck.toml` formatting
-2. compare against [reference config example](../reference/examples/pyqck.toml)
+1. check `pyquick.toml` formatting
+2. compare against [reference config example](../reference/examples/pyquick.toml)
 3. retry the command
 
 ## `ERROR [tooling]` about missing tool/runner
@@ -49,7 +49,7 @@ Fix:
 
 1. ensure `uv --version` works
 2. run `uv sync --extra dev` in project root
-3. verify `[tooling]` values in `pyqck.toml`
+3. verify `[tooling]` values in `pyquick.toml`
 
 ## `pyqck run` fails to boot app
 

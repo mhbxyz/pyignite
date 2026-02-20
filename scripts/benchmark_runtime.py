@@ -97,7 +97,7 @@ def _create_sample_project(*, repo_root: Path, workspace: Path) -> Path:
 def _measure_startup_cycle(*, project_dir: Path, repo_root: Path) -> float:
     env = _bench_env(repo_root)
     port = _free_port()
-    config_path = project_dir / "pyqck.toml"
+    config_path = project_dir / "pyquick.toml"
     _set_run_port(config_path, port)
 
     started = time.perf_counter()
@@ -195,7 +195,7 @@ def _set_run_port(config_path: Path, port: int) -> None:
         updated.append(line)
 
     if not replaced:
-        raise RuntimeError("Could not locate `[run].port` in pyqck.toml")
+        raise RuntimeError("Could not locate `[run].port` in pyquick.toml")
 
     config_path.write_text("\n".join(updated) + "\n", encoding="utf-8")
 

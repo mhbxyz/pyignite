@@ -106,7 +106,7 @@ def test_run_propagates_exit_code_and_shows_app_hint(monkeypatch) -> None:
 
     assert result.exit_code == 7
     assert "ERROR [tooling] Failed to run ASGI app `myapi.main:app`." in result.output
-    assert "Hint: Check `[run].app` in `pyqck.toml`" in result.output
+    assert "Hint: Check `[run].app` in `pyquick.toml`" in result.output
 
 
 def test_check_runs_full_pipeline_and_reports_summary(monkeypatch) -> None:

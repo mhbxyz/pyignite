@@ -7,7 +7,7 @@ from typing import Any
 
 from pyqck.scaffold.names import normalize_package_name
 
-DEFAULT_CONFIG_FILE = "pyqck.toml"
+DEFAULT_CONFIG_FILE = "pyquick.toml"
 
 
 @dataclass(slots=True, frozen=True)
@@ -60,7 +60,7 @@ class PyQuickConfig:
 
 
 class ConfigError(Exception):
-    """Raised when pyqck.toml is invalid."""
+    """Raised when pyquick.toml is invalid."""
 
     def __init__(self, message: str, hint: str) -> None:
         super().__init__(message)

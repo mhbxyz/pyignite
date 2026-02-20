@@ -11,7 +11,7 @@ CHECKS_MODE_FULL = "full"
 
 FULL_RUN_TRIGGERS = {
     "pyproject.toml",
-    "pyqck.toml",
+    "pyquick.toml",
     "ruff.toml",
     "pyrightconfig.json",
 }

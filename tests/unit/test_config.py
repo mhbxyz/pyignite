@@ -6,7 +6,7 @@ from pyqck.config import ConfigError, load_config
 
 
 def _write_config(tmp_path: Path, body: str) -> None:
-    (tmp_path / "pyqck.toml").write_text(body, encoding="utf-8")
+    (tmp_path / "pyquick.toml").write_text(body, encoding="utf-8")
 
 
 def test_load_config_returns_defaults_when_file_missing(tmp_path: Path) -> None:

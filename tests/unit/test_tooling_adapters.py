@@ -37,7 +37,7 @@ class FakeRunner:
 def _config(tmp_path: Path) -> PyQuickConfig:
     return PyQuickConfig(
         root_dir=tmp_path,
-        file_path=tmp_path / "pyqck.toml",
+        file_path=tmp_path / "pyquick.toml",
         project=ProjectSection(),
         tooling=ToolingSection(),
         dev=DevSection(),

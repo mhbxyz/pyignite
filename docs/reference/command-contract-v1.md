@@ -17,7 +17,7 @@ This document defines the guaranteed behavior for v1 alpha commands and the shar
 
 - `0`: command completed successfully.
 - `1`: runtime or managed-tool failure (subprocess execution, failing checks, watch failure).
-- `2`: usage, input, or configuration error (invalid flags, invalid `pyqck.toml`, unsupported template/profile).
+- `2`: usage, input, or configuration error (invalid flags, invalid `pyquick.toml`, unsupported template/profile).
 
 ## Error Output Convention
 
@@ -38,7 +38,7 @@ Hint: Install dependencies with `uv sync --extra dev` and retry.
 | Command | Purpose | Inputs (v1) | Success Behavior | Failure Behavior | Idempotence Guarantee |
 | --- | --- | --- | --- | --- | --- |
 | `pyqck new <name> --profile api --template fastapi` | Scaffold a new API project | project name, profile, template | Creates scaffold with deterministic baseline files and returns `0` | Invalid profile/template or filesystem conflict returns `2`; generation failure returns `1` | Running again with same target path does not corrupt existing files and fails predictably unless overwrite is explicit |
-| `pyqck dev` | Start dev feedback loop | optional config from `pyqck.toml` | Starts watcher/reload loop and exits `0` only on clean user stop | Invalid config returns `2`; watcher/tool process crash returns `1` | Re-running starts the same loop semantics with same config |
+| `pyqck dev` | Start dev feedback loop | optional config from `pyquick.toml` | Starts watcher/reload loop and exits `0` only on clean user stop | Invalid config returns `2`; watcher/tool process crash returns `1` | Re-running starts the same loop semantics with same config |
 | `pyqck run` | Run app without dev watcher | optional run settings from config | Starts app process via configured defaults, exits with app code (success path `0`) | Invalid run config returns `2`; runner/tool errors return `1` | Re-running uses same launch contract and does not mutate config/project |
 | `pyqck test` | Execute project test suite | optional passthrough flags | Runs configured test command and exits with propagated result | Invalid flags/config returns `2`; test runtime failure returns `1` | No persistent mutation outside normal test artifacts |
 | `pyqck lint` | Run lint checks | optional passthrough flags | Runs lint checks and reports concise status | Invalid flags/config returns `2`; lint execution/failing lint returns `1` | Repeatable and read-only on source |
@@ -82,4 +82,4 @@ This section makes #1 directly testable against follow-up issues.
 ## See Also
 
 - [Reference index](README.md)
-- [Config example](examples/pyqck.toml)
+- [Config example](examples/pyquick.toml)

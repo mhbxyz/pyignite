@@ -15,7 +15,7 @@ Use this page as the primary entry point for project docs.
 - Section index: [Reference](reference/README.md)
 - Command contract v1: [command-contract-v1.md](reference/command-contract-v1.md)
 - FastAPI scaffold layout: [fastapi-scaffold-template.md](reference/fastapi-scaffold-template.md)
-- Config example: [examples/pyqck.toml](reference/examples/pyqck.toml)
+- Config example: [examples/pyquick.toml](reference/examples/pyquick.toml)
 
 ## Dev Loop
 

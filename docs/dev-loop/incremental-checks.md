@@ -9,7 +9,7 @@ PyQuick uses staged feedback in `pyqck dev` to keep save-to-feedback fast while 
 - `incremental` (default): target checks by changed paths when safe.
 - `full`: always run full checks (`lint`, `type`, `test`) on every save.
 
-Configure in `pyqck.toml`:
+Configure in `pyquick.toml`:
 
 ```toml
 [dev]
@@ -31,7 +31,7 @@ fallback_threshold = 8
 
 PyQuick falls back to full checks when uncertainty is high, including:
 
-- config/tooling file changes (`pyproject.toml`, `pyqck.toml`, `ruff*.toml`, `pyrightconfig.json`)
+- config/tooling file changes (`pyproject.toml`, `pyquick.toml`, `ruff*.toml`, `pyrightconfig.json`)
 - changed file count exceeds `fallback_threshold`
 - Python changes outside known `src/` / `tests/` scopes
 

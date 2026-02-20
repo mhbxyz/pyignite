@@ -50,7 +50,7 @@ def _build_runtime_hint(*, stderr: str, app_path: str) -> str:
     lower_stderr = stderr.lower()
     if "error loading asgi app" in lower_stderr or "could not import module" in lower_stderr:
         return (
-            "Check `[run].app` in `pyqck.toml` and ensure the module exists under `src/` "
+            "Check `[run].app` in `pyquick.toml` and ensure the module exists under `src/` "
             f"with an ASGI app at `{app_path}`."
         )
     if 'attribute "app" not found' in lower_stderr:

@@ -29,7 +29,7 @@ def build_fastapi_template(context: FastAPITemplateContext) -> dict[Path, str]:
         Path(".gitignore"): _gitignore(),
         Path("README.md"): _readme(context),
         Path("pyproject.toml"): _pyproject(context),
-        Path("pyqck.toml"): _pyqck_toml(context),
+        Path("pyquick.toml"): _pyquick_toml(context),
         src_package / "__init__.py": _package_init(),
         src_package / "main.py": _main_module(),
         src_package / "api" / "__init__.py": _package_init(),
@@ -74,7 +74,7 @@ Health check endpoint: `GET /health` returns `{{"status": "ok"}}`.
 
 - `src/{context.package_name}/main.py`: FastAPI app entrypoint
 - `src/{context.package_name}/api/router.py`: API router module
-- `pyqck.toml`: PyQuick command defaults
+- `pyquick.toml`: PyQuick command defaults
 
 ## Next steps
 
@@ -126,7 +126,7 @@ packages = ["src/{context.package_name}"]
 """
 
 
-def _pyqck_toml(context: FastAPITemplateContext) -> str:
+def _pyquick_toml(context: FastAPITemplateContext) -> str:
     return f"""[project]
 name = "{context.project_name}"
 profile = "{context.profile}"

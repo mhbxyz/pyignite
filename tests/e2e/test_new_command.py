@@ -19,13 +19,13 @@ def test_new_generates_fastapi_project_structure() -> None:
         assert "uv run pyqck run" in result.output
 
         project_dir = Path("my-api")
-        assert (project_dir / "pyqck.toml").exists()
+        assert (project_dir / "pyquick.toml").exists()
         assert (project_dir / "src" / "my_api" / "main.py").exists()
         assert (project_dir / "src" / "my_api" / "api" / "health.py").exists()
         assert (project_dir / "tests" / "test_health.py").exists()
 
-        pyqck_toml = (project_dir / "pyqck.toml").read_text(encoding="utf-8")
-        assert 'app = "my_api.main:app"' in pyqck_toml
+        pyquick_toml = (project_dir / "pyquick.toml").read_text(encoding="utf-8")
+        assert 'app = "my_api.main:app"' in pyquick_toml
 
 
 def test_new_rejects_non_empty_destination() -> None:

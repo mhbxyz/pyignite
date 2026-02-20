@@ -44,7 +44,7 @@ def _create_project(tmp_path: Path, name: str = "myapi") -> Path:
 
 
 def _set_run_port(project_dir: Path, port: int) -> None:
-    config_path = project_dir / "pyqck.toml"
+    config_path = project_dir / "pyquick.toml"
     content = config_path.read_text(encoding="utf-8")
     config_path.write_text(content.replace("port = 8000", f"port = {port}"), encoding="utf-8")
 
@@ -93,7 +93,7 @@ def test_e2e_api_workflow_new_run_test_check(tmp_path: Path) -> None:
 def test_e2e_failure_missing_tool_shows_actionable_hint(tmp_path: Path) -> None:
     project_dir = _create_project(tmp_path, "broken-tool")
 
-    config_path = project_dir / "pyqck.toml"
+    config_path = project_dir / "pyquick.toml"
     content = config_path.read_text(encoding="utf-8")
     config_path.write_text(
         content.replace('packaging = "uv"', 'packaging = "missing-tool"'), encoding="utf-8"
@@ -108,7 +108,7 @@ def test_e2e_failure_missing_tool_shows_actionable_hint(tmp_path: Path) -> None:
 def test_e2e_failure_invalid_config_shows_diagnostics(tmp_path: Path) -> None:
     project_dir = _create_project(tmp_path, "broken-config")
 
-    config_path = project_dir / "pyqck.toml"
+    config_path = project_dir / "pyquick.toml"
     config_path.write_text("[run]\nport = 'bad'\n", encoding="utf-8")
 
     result = _run_pyqck(["run"], cwd=project_dir)

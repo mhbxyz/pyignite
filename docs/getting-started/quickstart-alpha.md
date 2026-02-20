@@ -34,7 +34,7 @@ Expected result:
 
 - project files generated
 - `src/` layout ready
-- `pyqck.toml` present
+- `pyquick.toml` present
 
 ## 2) Install dependencies
 

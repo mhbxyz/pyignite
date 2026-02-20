@@ -18,7 +18,7 @@ checks_mode = "incremental"
 fallback_threshold = 8
 
 [run]
-app = "app.main:app"
+app = "myapi.main:app"
 host = "127.0.0.1"
 port = 8000
 
