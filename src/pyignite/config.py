@@ -5,6 +5,8 @@ from pathlib import Path
 import tomllib
 from typing import Any
 
+from pyignite.scaffold.names import normalize_package_name
+
 DEFAULT_CONFIG_FILE = "pyignite.toml"
 
 
@@ -33,7 +35,7 @@ class DevSection:
 
 @dataclass(slots=True, frozen=True)
 class RunSection:
-    app: str = "app.main:app"
+    app: str = "myapi.main:app"
     host: str = "127.0.0.1"
     port: int = 8000
 
@@ -99,13 +101,14 @@ def load_config(root_dir: Path, file_name: str = DEFAULT_CONFIG_FILE) -> PyIgnit
 
 
 def _default_config(root_dir: Path, file_path: Path) -> PyIgniteConfig:
+    project = ProjectSection()
     return PyIgniteConfig(
         root_dir=root_dir,
         file_path=file_path,
-        project=ProjectSection(),
+        project=project,
         tooling=ToolingSection(),
         dev=DevSection(),
-        run=RunSection(),
+        run=RunSection(app=f"{normalize_package_name(project.name)}.main:app"),
         checks=ChecksSection(),
     )
 
@@ -126,7 +129,7 @@ def _parse_config(root_dir: Path, file_path: Path, raw: dict[str, Any]) -> PyIgn
     project = _parse_project(project_raw)
     tooling = _parse_tooling(tooling_raw)
     dev = _parse_dev(dev_raw)
-    run = _parse_run(run_raw)
+    run = _parse_run(run_raw, project=project)
     checks = _parse_checks(checks_raw)
 
     return PyIgniteConfig(
@@ -208,10 +211,11 @@ def _parse_dev(raw: dict[str, Any]) -> DevSection:
     return DevSection(reload=reload_enabled, watch=tuple(watch), debounce_ms=debounce_ms)
 
 
-def _parse_run(raw: dict[str, Any]) -> RunSection:
+def _parse_run(raw: dict[str, Any], *, project: ProjectSection) -> RunSection:
     _assert_allowed_keys(raw, {"app", "host", "port"}, context="[run]")
 
-    app = _read_string(raw, "app", default="app.main:app", context="[run]")
+    default_app = f"{normalize_package_name(project.name)}.main:app"
+    app = _read_string(raw, "app", default=default_app, context="[run]")
     host = _read_string(raw, "host", default="127.0.0.1", context="[run]")
     port = _read_int(raw, "port", default=8000, context="[run]")
 

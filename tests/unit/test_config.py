@@ -19,6 +19,7 @@ def test_load_config_returns_defaults_when_file_missing(tmp_path: Path) -> None:
     assert config.tooling.testing == "pytest"
     assert config.tooling.typing == "pyright"
     assert config.tooling.running == "uvicorn"
+    assert config.run.app == "myapi.main:app"
     assert config.dev.watch == ("src", "tests")
     assert config.checks.pipeline == ("lint", "type", "test")
 
@@ -39,7 +40,21 @@ pipeline = ["type", "test", "lint"]
 
     assert config.run.port == 9000
     assert config.run.host == "127.0.0.1"
+    assert config.run.app == "myapi.main:app"
     assert config.checks.pipeline == ("type", "test", "lint")
+
+
+def test_load_config_derives_run_app_from_project_name_when_omitted(tmp_path: Path) -> None:
+    _write_config(
+        tmp_path,
+        """
+[project]
+name = "Billing API"
+""".strip(),
+    )
+
+    config = load_config(tmp_path)
+    assert config.run.app == "billing_api.main:app"
 
 
 def test_load_config_rejects_unknown_top_level_key(tmp_path: Path) -> None:

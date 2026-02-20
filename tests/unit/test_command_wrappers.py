@@ -20,9 +20,9 @@ class FakeAdapters:
         return self.responses.popleft()
 
 
-def _config(*, stop_on_first_failure: bool = True) -> object:
+def _config(*, stop_on_first_failure: bool = True) -> SimpleNamespace:
     return SimpleNamespace(
-        run=SimpleNamespace(app="app.main:app", host="127.0.0.1", port=8000),
+        run=SimpleNamespace(app="myapi.main:app", host="127.0.0.1", port=8000),
         checks=SimpleNamespace(
             pipeline=("lint", "type", "test"),
             stop_on_first_failure=stop_on_first_failure,
@@ -71,9 +71,42 @@ def test_run_uses_defaults_and_passthrough_args(monkeypatch) -> None:
     assert adapters.calls == [
         (
             ToolKey.RUNNING,
-            ("app.main:app", "--host", "127.0.0.1", "--port", "8000", "--reload"),
+            ("myapi.main:app", "--host", "127.0.0.1", "--port", "8000", "--reload"),
         )
     ]
+
+
+def test_run_uses_config_overrides(monkeypatch) -> None:
+    from pyignite.commands import run
+
+    config = _config()
+    config.run = SimpleNamespace(app="billing.main:app", host="0.0.0.0", port=9001)
+    adapters = FakeAdapters(config=config, responses=deque([_result(0)]))
+    monkeypatch.setattr(run, "build_adapters_or_exit", lambda: adapters)
+
+    result = CliRunner().invoke(app, ["run"])
+
+    assert result.exit_code == 0
+    assert adapters.calls == [
+        (
+            ToolKey.RUNNING,
+            ("billing.main:app", "--host", "0.0.0.0", "--port", "9001"),
+        )
+    ]
+
+
+def test_run_propagates_exit_code_and_shows_app_hint(monkeypatch) -> None:
+    from pyignite.commands import run
+
+    stderr = 'ERROR:    Error loading ASGI app. Could not import module "wrong.module".'
+    adapters = FakeAdapters(config=_config(), responses=deque([_result(7, stderr=stderr)]))
+    monkeypatch.setattr(run, "build_adapters_or_exit", lambda: adapters)
+
+    result = CliRunner().invoke(app, ["run"])
+
+    assert result.exit_code == 7
+    assert "ERROR [tooling] Failed to run ASGI app `myapi.main:app`." in result.output
+    assert "Hint: Check `[run].app` in `pyignite.toml`" in result.output
 
 
 def test_check_runs_full_pipeline_and_reports_summary(monkeypatch) -> None:
