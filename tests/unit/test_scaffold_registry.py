@@ -62,8 +62,18 @@ def test_default_registry_resolves_lib_profile() -> None:
     assert Path("pyproject.toml") in selection.files
 
 
-def test_default_registry_marks_cli_as_reserved_profile() -> None:
+def test_default_registry_resolves_cli_profile() -> None:
+    registry = build_default_scaffold_registry()
+
+    selection = registry.build(project_name="mycli", profile="cli")
+
+    assert selection.profile == "cli"
+    assert selection.template == "baseline-cli"
+    assert Path("src/mycli/main.py") in selection.files
+
+
+def test_default_registry_marks_web_as_reserved_profile() -> None:
     registry = build_default_scaffold_registry()
 
     with pytest.raises(ReservedProfileError):
-        registry.build(project_name="demo", profile="cli")
+        registry.build(project_name="demo", profile="web")

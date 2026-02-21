@@ -29,7 +29,7 @@ Two profile groups are defined:
 | --- | --- | --- | --- |
 | `api` | stable | supported | current alpha baseline |
 | `lib` | stable | supported | baseline library scaffold |
-| `cli` | stable keyword | reserved | planned follow-up (#26) |
+| `cli` | stable | supported | baseline CLI scaffold |
 | `web` | stable keyword | reserved | taxonomy placeholder |
 | `game` | stable keyword | reserved | taxonomy placeholder |
 
@@ -45,7 +45,7 @@ Compatibility is defined by profile/template pair, not by template alone.
 | --- | --- | --- | --- |
 | `api` | `fastapi` | `fastapi` | additional API templates may be added later |
 | `lib` | `baseline-lib` | `baseline-lib` | additional library templates may be added later |
-| `cli` | `baseline-cli` | none (reserved) | `baseline-cli` |
+| `cli` | `baseline-cli` | `baseline-cli` | additional CLI templates may be added later |
 | `web` | n/a | none (reserved) | tbd |
 | `game` | n/a | none (reserved) | tbd |
 

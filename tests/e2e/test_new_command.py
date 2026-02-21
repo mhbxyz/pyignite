@@ -47,6 +47,25 @@ def test_new_generates_lib_project_structure() -> None:
         assert (project_dir / "tests" / "test_my_lib.py").exists()
 
 
+def test_new_generates_cli_project_structure() -> None:
+    runner = CliRunner()
+
+    with runner.isolated_filesystem():
+        result = runner.invoke(app, ["new", "my-cli", "--profile", "cli"])
+
+        assert result.exit_code == 0
+        assert (
+            "Created project `my-cli` with profile `cli` and template `baseline-cli`."
+            in result.output
+        )
+
+        project_dir = Path("my-cli")
+        assert (project_dir / "pyproject.toml").exists()
+        assert (project_dir / "pyquick.toml").exists()
+        assert (project_dir / "src" / "my_cli" / "main.py").exists()
+        assert (project_dir / "tests" / "test_my_cli.py").exists()
+
+
 def test_new_rejects_non_empty_destination() -> None:
     runner = CliRunner()
 

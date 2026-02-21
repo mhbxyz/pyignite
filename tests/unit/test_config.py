@@ -129,6 +129,23 @@ profile = "lib"
     assert config.run.app == "billing_lib.main:app"
 
 
+def test_load_config_accepts_cli_profile_and_default_template(tmp_path: Path) -> None:
+    _write_config(
+        tmp_path,
+        """
+[project]
+name = "Billing CLI"
+profile = "cli"
+""".strip(),
+    )
+
+    config = load_config(tmp_path)
+
+    assert config.project.profile == "cli"
+    assert config.project.template == "baseline-cli"
+    assert config.run.app == "billing_cli.main:app"
+
+
 def test_load_config_rejects_incompatible_template_for_profile(tmp_path: Path) -> None:
     _write_config(
         tmp_path,
@@ -136,6 +153,20 @@ def test_load_config_rejects_incompatible_template_for_profile(tmp_path: Path) -
 [project]
 profile = "lib"
 template = "fastapi"
+""".strip(),
+    )
+
+    with pytest.raises(ConfigError, match="not valid for profile"):
+        load_config(tmp_path)
+
+
+def test_load_config_rejects_incompatible_cli_template_for_profile(tmp_path: Path) -> None:
+    _write_config(
+        tmp_path,
+        """
+[project]
+profile = "cli"
+template = "baseline-lib"
 """.strip(),
     )
 

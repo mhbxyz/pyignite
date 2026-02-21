@@ -163,16 +163,18 @@ def _parse_project(raw: dict[str, Any]) -> ProjectSection:
     compatibility: dict[str, tuple[str, ...]] = {
         "api": ("fastapi",),
         "lib": ("baseline-lib",),
+        "cli": ("baseline-cli",),
     }
     default_template = {
         "api": "fastapi",
         "lib": "baseline-lib",
+        "cli": "baseline-cli",
     }
 
     if profile not in compatibility:
         raise ConfigError(
             f"`[project].profile` is unsupported: `{profile}`.",
-            'Use `profile = "api"` or `profile = "lib"`.',
+            'Use `profile = "api"`, `profile = "lib"`, or `profile = "cli"`.',
         )
 
     template = _read_string(
