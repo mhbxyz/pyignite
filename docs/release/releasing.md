@@ -116,6 +116,12 @@ Workflow: `.github/workflows/release-please.yml`
 - Version/tag/changelog are produced by workflow, not ad hoc local steps.
 - Manual controls remain on release PR review and publishing environment approvals.
 
+## Binary artifacts (alpha status)
+
+- PyPI remains the primary supported distribution channel in alpha.
+- Standalone binaries are tracked as an experimental path; see [Binary distribution strategy](binary-distribution-strategy.md).
+- If binary artifacts are published, they should be attached to GitHub Releases as optional assets, not as a replacement for package publishing gates.
+
 ## See Also
 
 - [PyPI trusted publishing](pypi-publishing.md)

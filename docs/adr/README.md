@@ -4,3 +4,4 @@
 
 - [ADR 0001: Defer v1 non-goals](0001-defer-v1-non-goals.md)
 - [ADR 0002: Standalone CLI, delegated packaging backend](0002-standalone-cli-delegated-packaging.md)
+- [ADR 0003: Binary distribution strategy for alpha](0003-binary-distribution-strategy.md)
