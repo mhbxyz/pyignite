@@ -7,7 +7,7 @@ Use this checklist to run a repeatable, auditable go/no-go process for internal 
 ## Release scope
 
 - Target release: Internal Alpha
-- Product scope: FastAPI profile (`new`, `dev`, `run`, `test`, `lint`, `fmt`, `check`)
+- Product scope: profile-based scaffolds (`api`, `lib`, `cli`) with API as the most mature alpha baseline
 - Packaging/runtime model: standalone PyQuick orchestration with delegated `uv` backend
 
 ## Go/No-Go Gates
@@ -45,7 +45,7 @@ Run in order on a clean local environment:
 3. `scripts/run_e2e.sh`
 4. `scripts/run_benchmarks.sh`
 5. `pyqck --help` (command surface check)
-6. Quickstart dry-run using [Alpha quickstart](../getting-started/quickstart-alpha.md)
+6. Quickstart dry-run using [API quickstart (baseline)](../getting-started/quickstart-alpha.md)
 
 Record rehearsal outcome:
 
@@ -65,7 +65,7 @@ Record rehearsal outcome:
 7. Publish internal announcement including:
    - alpha scope
    - known constraints (including delegated `uv` backend)
-   - how to onboard ([Alpha quickstart](../getting-started/quickstart-alpha.md))
+   - how to onboard ([API quickstart (baseline)](../getting-started/quickstart-alpha.md))
    - where to report feedback ([issue template](../../.github/ISSUE_TEMPLATE/alpha-feedback.yml) and [Alpha feedback template](alpha-feedback-template.md))
 
 ## Feedback/Triage Loop (post-release)

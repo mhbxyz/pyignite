@@ -1,6 +1,6 @@
 # PyQuick
 
-PyQuick is the developer toolchain for Python APIs.
+PyQuick is the developer toolchain for Python projects.
 
 ## TL;DR
 
@@ -9,13 +9,14 @@ pipx install pyqck
 pyqck new myapi --profile api --template fastapi
 cd myapi
 pyqck install
-pyqck run
+pyqck test
+pyqck check
 ```
 
 ## Core Commands
 
 ```bash
-pyqck new <name> --profile api --template fastapi
+pyqck new <name> --profile <api|lib|cli> [--template ...]
 pyqck install
 pyqck sync
 pyqck dev
@@ -30,7 +31,9 @@ pyqck check
 
 - Docs index: [docs/README.md](docs/README.md)
 - Install guide: [docs/getting-started/install.md](docs/getting-started/install.md)
-- Alpha quickstart: [docs/getting-started/quickstart-alpha.md](docs/getting-started/quickstart-alpha.md)
+- API quickstart (baseline): [docs/getting-started/quickstart-alpha.md](docs/getting-started/quickstart-alpha.md)
+- Library quickstart: [docs/getting-started/quickstart-lib.md](docs/getting-started/quickstart-lib.md)
+- CLI quickstart: [docs/getting-started/quickstart-cli.md](docs/getting-started/quickstart-cli.md)
 - Troubleshooting: [docs/getting-started/troubleshooting-alpha.md](docs/getting-started/troubleshooting-alpha.md)
 - Release checklist: [docs/release/release-alpha-checklist.md](docs/release/release-alpha-checklist.md)
 
@@ -45,9 +48,11 @@ pyqck check
 
 ## Product Scope (v1 alpha)
 
-- FastAPI-first API scaffold
+- Profile-based scaffolding for `api`, `lib`, and `cli` projects
+- API profile is the most mature alpha baseline today
 - No DB scaffolding by default
-- Fast local loop with deterministic checks
+- Deterministic local checks via `pyqck test` and `pyqck check` across profiles
+- Profile-aware `run`/`dev` behavior is being finalized (tracked in #34)
 
 ## Roadmap
 
