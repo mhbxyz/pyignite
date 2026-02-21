@@ -13,7 +13,9 @@ This guide documents how `pyqck` is published to TestPyPI and PyPI via GitHub OI
 - Publish pipeline: `.github/workflows/publish.yml`
   - runs on version tags (`v*`)
   - publishes to TestPyPI
-  - verifies install from TestPyPI
+  - verifies install from TestPyPI via `pip`
+  - verifies install from TestPyPI via `pipx`
+  - runs smoke flow: `pyqck --help`, `pyqck new ...`, `uv sync --extra dev`, `pyqck test`
   - publishes to PyPI
   - creates GitHub Release with wheel/sdist assets
 

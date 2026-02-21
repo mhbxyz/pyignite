@@ -70,7 +70,7 @@ body:
       placeholder: |
         pyqck new myapi --profile api --template fastapi
         uv sync --extra dev
-        uv run pyqck dev
+        pyqck dev
     validations:
       required: true
 

@@ -11,7 +11,7 @@ Need CLI installation first? Use the [Install guide](install.md).
 PyQuick is a standalone workflow CLI, but dependency/environment execution is delegated to `uv` in alpha.
 
 - Bootstrap from anywhere: `pyqck new ...`
-- Inside generated projects: run workflow commands through project env (`uv run pyqck ...`)
+- Inside generated projects: run workflow commands directly (`pyqck ...`)
 
 Why this split?
 
@@ -54,7 +54,7 @@ Expected result:
 ## 3) Start the API
 
 ```bash
-uv run pyqck run
+pyqck run
 ```
 
 Expected result:
@@ -71,7 +71,7 @@ curl http://127.0.0.1:8000/health
 ## 4) Run the dev loop
 
 ```bash
-uv run pyqck dev
+pyqck dev
 ```
 
 Expected result:
@@ -82,8 +82,8 @@ Expected result:
 ## 5) Validate quality gates
 
 ```bash
-uv run pyqck test
-uv run pyqck check
+pyqck test
+pyqck check
 ```
 
 Expected result:

@@ -6,7 +6,7 @@ Use this guide when the quickstart flow fails.
 
 For install/setup issues before quickstart, start with [Install guide](install.md).
 
-## Why do project commands use `uv run pyqck ...`?
+## Why can I run `pyqck ...` directly?
 
 In alpha, PyQuick delegates environment/package execution to `uv` while keeping PyQuick as the standalone workflow CLI.
 

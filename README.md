@@ -9,7 +9,7 @@ pipx install pyqck
 pyqck new myapi --profile api --template fastapi
 cd myapi
 uv sync --extra dev
-uv run pyqck run
+pyqck run
 ```
 
 ## Core Commands

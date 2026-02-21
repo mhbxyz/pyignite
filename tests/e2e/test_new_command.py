@@ -16,7 +16,7 @@ def test_new_generates_fastapi_project_structure() -> None:
 
         assert result.exit_code == 0
         assert "Created project `my-api`" in result.output
-        assert "uv run pyqck run" in result.output
+        assert "pyqck run" in result.output
 
         project_dir = Path("my-api")
         assert (project_dir / "pyquick.toml").exists()

@@ -18,7 +18,7 @@ Mark each gate as `pass`, `blocked`, or `waived` (with rationale).
 | --- | --- | --- | --- | --- |
 | Functional workflow | `uv run pytest tests/e2e` | Full happy-path and failure-path E2E pass | QA Lead | pending |
 | Core test suite | `uv run pytest` | Full suite green | QA Lead | pending |
-| Quality tooling | `uv run pyqck check` | Deterministic check output, zero failures | Engineering | pending |
+| Quality tooling | `pyqck check` | Deterministic check output, zero failures | Engineering | pending |
 | Perf guardrails | `scripts/run_benchmarks.sh` | No regression beyond configured threshold | Performance Owner | pending |
 | Docs readiness | Manual review of alpha docs links and command accuracy | Quickstart and troubleshooting are executable | DX/Docs Owner | pending |
 | Release PR and env approvals | Release PR reviewed (if release-please path) + `testpypi`/`pypi` environment approvals recorded | Human go/no-go decisions are auditable | Release Manager | pending |
@@ -44,7 +44,7 @@ Run in order on a clean local environment:
 2. `uv run pytest`
 3. `scripts/run_e2e.sh`
 4. `scripts/run_benchmarks.sh`
-5. `uv run pyqck --help` (command surface check)
+5. `pyqck --help` (command surface check)
 6. Quickstart dry-run using [Alpha quickstart](../getting-started/quickstart-alpha.md)
 
 Record rehearsal outcome:

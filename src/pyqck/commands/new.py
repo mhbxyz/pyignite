@@ -58,8 +58,8 @@ def new_command(
     typer.echo("Next steps:")
     typer.echo(f"  cd {name}")
     typer.echo("  uv sync")
-    typer.echo("  uv run pyqck run")
-    typer.echo("  uv run pyqck test")
+    typer.echo("  pyqck run")
+    typer.echo("  pyqck test")
 
 
 def _usage_error(message: str, hint: str) -> None:
