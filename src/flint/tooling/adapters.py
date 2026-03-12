@@ -99,10 +99,7 @@ class ToolAdapters:
             return spec
         raise ToolNotAvailableError(
             f"Configured runner for `{key.value}` not found: `{runner_executable}`.",
-            (
-                f"Install `{runner_executable}` and retry, or set `[tooling].runner` "
-                "to a valid executable."
-            ),
+            self._missing_runner_hint(runner_executable),
         )
 
     def run(
@@ -130,3 +127,14 @@ class ToolAdapters:
     def command(self, key: ToolKey, args: Sequence[str] = ()) -> tuple[str, ...]:
         spec = self.ensure_available(key)
         return (self._config.tooling.runner, "run", spec.executable, *args)
+
+    def _missing_runner_hint(self, runner_executable: str) -> str:
+        if runner_executable == "uv":
+            return (
+                "Install `uv`, prepare the project with `uv sync --extra dev`, "
+                "and retry, or set `[tooling].runner` to a valid executable."
+            )
+        return (
+            f"Install `{runner_executable}` and retry, or set `[tooling].runner` "
+            "to a valid executable."
+        )

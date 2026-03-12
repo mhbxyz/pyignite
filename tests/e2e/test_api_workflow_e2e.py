@@ -63,7 +63,7 @@ def test_e2e_api_workflow_new_run_test_check(tmp_path: Path) -> None:
     run_process.wait(timeout=5)
 
 
-def test_e2e_failure_missing_tool_shows_actionable_hint(tmp_path: Path) -> None:
+def test_e2e_failure_missing_runner_shows_actionable_hint(tmp_path: Path) -> None:
     project_dir = _create_project(tmp_path, "broken-tool")
 
     config_path = project_dir / "flint.toml"
@@ -76,6 +76,8 @@ def test_e2e_failure_missing_tool_shows_actionable_hint(tmp_path: Path) -> None:
     assert result.returncode == 1
     assert "ERROR [tooling]" in result.stderr
     assert "Hint:" in result.stderr
+    assert "Install `missing-tool`" in result.stderr
+    assert "[tooling].runner" in result.stderr
 
 
 def test_e2e_failure_invalid_config_shows_diagnostics(tmp_path: Path) -> None:

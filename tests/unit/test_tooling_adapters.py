@@ -62,6 +62,7 @@ def test_missing_tool_raises_actionable_error(tmp_path: Path) -> None:
         adapters.ensure_available(ToolKey.LINTING)
 
     assert "[tooling].runner" in exc_info.value.hint
+    assert "uv sync --extra dev" in exc_info.value.hint
 
 
 def test_run_propagates_subprocess_exit_and_output(tmp_path: Path) -> None:

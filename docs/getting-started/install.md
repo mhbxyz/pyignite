@@ -36,6 +36,16 @@ Expected result:
 - help output prints successfully
 - `flint` is available directly from your shell
 
+### Install `uv`
+
+Flint does not install `uv` automatically. Install it separately before running project commands such as `flint test`, `flint run`, or `flint dev`.
+
+Recommended next step:
+
+```bash
+pipx install uv
+```
+
 ## Option B) Project-local install with `venv` and `pip`
 
 Use this when you want a per-project CLI installation.
@@ -67,6 +77,16 @@ Expected result:
 
 - help output prints successfully
 - `flint` resolves from active virtual environment
+
+### Install `uv`
+
+Flint does not install `uv` automatically. Install it separately before running project commands such as `flint test`, `flint run`, or `flint dev`.
+
+Recommended next step:
+
+```bash
+pip install uv
+```
 
 ## Option C) Experimental Linux binary from GitHub Releases
 
@@ -165,6 +185,19 @@ Fix:
 1. confirm install state (`pipx list` or `pip show flint-dev` in active venv)
 2. verify your active shell and environment activation
 3. rerun verification: `flint --help`
+
+### `uv: command not found`
+
+Common causes:
+
+- `uv` is not installed yet
+- `uv` is installed but not available in your shell `PATH`
+
+Fix:
+
+1. install `uv` (`pipx install uv` or `pip install uv`)
+2. verify `uv --version`
+3. run `uv sync --extra dev` in your project
 
 ## Next step
 
