@@ -120,6 +120,25 @@ class ScaffoldRegistry:
             return
         self._reserved_profiles.add(profile)
 
+    def scaffoldable_profiles(self) -> tuple[str, ...]:
+        return tuple(sorted(self._templates.keys()))
+
+    def templates_for(self, profile: str) -> tuple[str, ...]:
+        if profile in self._reserved_profiles:
+            raise ReservedProfileError(profile)
+        if profile not in self._templates:
+            available_profiles = tuple(sorted((*self._templates.keys(), *self._reserved_profiles)))
+            raise UnknownProfileError(profile, available_profiles=available_profiles)
+        return tuple(sorted(self._templates[profile].keys()))
+
+    def default_template_for(self, profile: str) -> str:
+        if profile in self._reserved_profiles:
+            raise ReservedProfileError(profile)
+        if profile not in self._templates:
+            available_profiles = tuple(sorted((*self._templates.keys(), *self._reserved_profiles)))
+            raise UnknownProfileError(profile, available_profiles=available_profiles)
+        return self._default_template_for(profile)
+
     def build(
         self, *, project_name: str, profile: str, template: str | None = None
     ) -> ScaffoldSelection:

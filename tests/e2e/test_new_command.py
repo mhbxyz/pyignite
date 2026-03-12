@@ -28,6 +28,42 @@ def test_new_generates_fastapi_project_structure() -> None:
         assert 'app = "my_api.main:app"' in flint_toml
 
 
+def test_new_interactive_generates_project_structure() -> None:
+    runner = CliRunner()
+
+    with runner.isolated_filesystem():
+        result = runner.invoke(
+            app,
+            ["new"],
+            input="my-interactive\napi\ny\n",
+        )
+
+        assert result.exit_code == 0
+        assert "Project summary:" in result.output
+        assert "Created project `my-interactive`" in result.output
+
+        project_dir = Path("my-interactive")
+        assert (project_dir / "flint.toml").exists()
+        assert (project_dir / "src" / "my_interactive" / "main.py").exists()
+
+
+def test_new_interactive_reprompts_invalid_values_and_can_cancel() -> None:
+    runner = CliRunner()
+
+    with runner.isolated_filesystem():
+        result = runner.invoke(
+            app,
+            ["new"],
+            input="\nmy-lib\nworker\nlib\nn\n",
+        )
+
+        assert result.exit_code == 0
+        assert result.output.count("Project name:") == 2
+        assert "Unsupported profile `worker`." in result.output
+        assert "Cancelled." in result.output
+        assert not Path("my-lib").exists()
+
+
 def test_new_generates_lib_project_structure() -> None:
     runner = CliRunner()
 

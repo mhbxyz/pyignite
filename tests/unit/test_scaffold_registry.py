@@ -122,3 +122,11 @@ def test_default_registry_exposes_profile_capabilities() -> None:
     assert api == ProfileCapabilities(RunMode.SERVER, DevMode.SERVER_WITH_CHECKS)
     assert cli == ProfileCapabilities(RunMode.CLI, DevMode.CHECKS_ONLY)
     assert lib == ProfileCapabilities(RunMode.UNSUPPORTED, DevMode.CHECKS_ONLY)
+
+
+def test_default_registry_lists_scaffoldable_profiles_and_templates() -> None:
+    registry = build_default_scaffold_registry()
+
+    assert registry.scaffoldable_profiles() == ("api", "cli", "lib")
+    assert registry.templates_for("api") == ("fastapi",)
+    assert registry.default_template_for("cli") == "baseline-cli"
