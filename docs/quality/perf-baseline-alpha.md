@@ -1,4 +1,4 @@
-# Alpha Performance Baseline
+# Performance Baseline
 
 [Project README](../../README.md) · [Docs Index](../README.md) · [Quality and Performance](README.md)
 

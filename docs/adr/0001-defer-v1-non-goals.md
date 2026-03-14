@@ -14,11 +14,11 @@
 
 ## Context
 
-Flint v1 alpha optimizes for fast delivery of a reliable command surface for API teams. Expanding scope too early risks instability in core CLI behavior and slows milestone delivery.
+Flint v1 optimizes for fast delivery of a reliable command surface for API teams. Expanding scope too early risks instability in core CLI behavior and slows milestone delivery.
 
 ## Decision
 
-The following capabilities are explicitly deferred beyond v1 alpha:
+The following capabilities are explicitly deferred beyond v1:
 
 1. Plugin API ecosystem.
 2. Flask/Litestar framework parity.
@@ -36,7 +36,7 @@ The following capabilities are explicitly deferred beyond v1 alpha:
 Any deferred item can be reconsidered when all conditions are met:
 
 - M1-M3 core command behavior is stable and documented.
-- Internal alpha feedback identifies the item as recurring blocker for target users.
+- User feedback identifies the item as recurring blocker for target users.
 - A dedicated issue defines measurable acceptance criteria and explicit out-of-scope boundary.
 - The change does not break v1 command contract backward compatibility without a versioned migration note.
 

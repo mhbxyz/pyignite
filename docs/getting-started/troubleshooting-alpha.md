@@ -1,4 +1,4 @@
-# Alpha Troubleshooting
+# Troubleshooting
 
 [Project README](../../README.md) · [Docs Index](../README.md) · [Getting Started](README.md)
 
@@ -8,7 +8,7 @@ For install/setup issues before quickstart, start with [Install guide](install.m
 
 ## Why can I run `flint ...` directly?
 
-In alpha, Flint delegates environment/package execution to `uv` while keeping Flint as the standalone workflow CLI.
+Flint delegates environment/package execution to `uv` while keeping Flint as the standalone workflow CLI.
 
 - `flint` handles orchestration and diagnostics
 - `uv` handles environment and tool execution consistency
@@ -115,4 +115,4 @@ Report the issue on GitHub with reproduction steps so maintainers can reproduce 
 
 - [Getting Started index](README.md)
 - [Install guide](install.md)
-- [Alpha quickstart](quickstart-alpha.md)
+- [Quickstart](quickstart-alpha.md)

@@ -166,4 +166,4 @@ Fix:
 
 ## Next step
 
-After install succeeds, continue with [Alpha quickstart](quickstart-alpha.md).
+After install succeeds, continue with [Quickstart](quickstart-alpha.md).

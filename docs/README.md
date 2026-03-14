@@ -8,10 +8,10 @@ Use this page as the primary entry point for profile-based Flint docs.
 
 - Section index: [Getting Started](getting-started/README.md)
 - Install guide: [install.md](getting-started/install.md)
-- API quickstart (baseline): [quickstart-alpha.md](getting-started/quickstart-alpha.md)
+- API quickstart: [quickstart-alpha.md](getting-started/quickstart-alpha.md)
 - Library quickstart: [quickstart-lib.md](getting-started/quickstart-lib.md)
 - CLI quickstart: [quickstart-cli.md](getting-started/quickstart-cli.md)
-- Alpha troubleshooting: [troubleshooting-alpha.md](getting-started/troubleshooting-alpha.md)
+- Troubleshooting: [troubleshooting-alpha.md](getting-started/troubleshooting-alpha.md)
 
 ## Reference
 
@@ -32,7 +32,7 @@ Use this page as the primary entry point for profile-based Flint docs.
 - Section index: [Quality and Performance](quality/README.md)
 - E2E testing guide: [e2e-testing.md](quality/e2e-testing.md)
 - Performance benchmarks: [perf-benchmarks.md](quality/perf-benchmarks.md)
-- Alpha performance baseline: [perf-baseline-alpha.md](quality/perf-baseline-alpha.md)
+- Performance baseline: [perf-baseline-alpha.md](quality/perf-baseline-alpha.md)
 
 ## ADR
 

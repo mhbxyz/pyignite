@@ -6,7 +6,7 @@ Status: Accepted for milestone M1.
 
 Note: profile/template evolution for M7 is specified in [Profile/template contract v2](profile-template-contract-v2.md). v1 command guarantees in this document remain normative for current shipped behavior.
 
-This document defines the guaranteed behavior for v1 alpha commands and the shared execution conventions.
+This document defines the guaranteed behavior for v1 commands and the shared execution conventions.
 
 ## Global Invariants
 
@@ -47,7 +47,7 @@ Hint: Install dependencies with `uv sync --extra dev` and retry.
 | `flint fmt` | Apply formatting | optional passthrough flags | Applies deterministic formatting and returns `0` on success | Invalid flags/config returns `2`; formatter failure returns `1` | Running repeatedly converges with no additional changes after first clean run |
 | `flint check` | Run full quality gate pipeline | optional scope flags (if defined), config defaults | Runs lint, type-check, tests in deterministic order and returns `0` when all pass | Invalid config/flags returns `2`; any check failure returns `1` with per-step summary | Same input set yields same step ordering and result summary |
 
-## Non-Goals for v1 Alpha
+## Non-Goals for v1
 
 The following are explicitly out of scope for v1 and must not be introduced during M1-M3 unless this document is revised:
 

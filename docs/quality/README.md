@@ -4,4 +4,4 @@
 
 - [E2E testing](e2e-testing.md)
 - [Performance benchmarks](perf-benchmarks.md)
-- [Alpha performance baseline](perf-baseline-alpha.md)
+- [Performance baseline](perf-baseline-alpha.md)

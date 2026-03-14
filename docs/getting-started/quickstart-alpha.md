@@ -1,4 +1,4 @@
-# Alpha Quickstart
+# Quickstart
 
 [Project README](../../README.md) · [Docs Index](../README.md) · [Getting Started](README.md)
 
@@ -8,7 +8,7 @@ Need CLI installation first? Use the [Install guide](install.md).
 
 ## Execution model (important)
 
-Flint is a standalone workflow CLI, but dependency/environment execution is delegated to `uv` in alpha.
+Flint is a standalone workflow CLI, and dependency/environment execution is delegated to `uv`.
 
 - Bootstrap from anywhere: `flint new ...`
 - Inside generated projects: run workflow commands directly (`flint ...`)
@@ -99,7 +99,7 @@ Expected result:
 
 ## If something fails
 
-Use [Alpha troubleshooting](troubleshooting-alpha.md) for common fixes, then open a GitHub issue with reproduction steps.
+Use [Troubleshooting](troubleshooting-alpha.md) for common fixes, then open a GitHub issue with reproduction steps.
 
 ## See Also
 

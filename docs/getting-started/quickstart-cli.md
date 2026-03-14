@@ -63,4 +63,4 @@ Expected result:
 
 - [Getting Started index](README.md)
 - [Install guide](install.md)
-- [Alpha troubleshooting](troubleshooting-alpha.md)
+- [Troubleshooting](troubleshooting-alpha.md)

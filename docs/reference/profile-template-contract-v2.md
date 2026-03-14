@@ -4,7 +4,7 @@
 
 Status: Accepted for milestone M7.
 
-This document defines the stable contract for selecting `profile` and `template` in `flint new` beyond the current API-first alpha baseline.
+This document defines the stable contract for selecting `profile` and `template` in `flint new` beyond the current API-first baseline.
 
 ## Goals
 
@@ -27,7 +27,7 @@ Two profile groups are defined:
 
 | Profile | Contract status | Implementation status | Notes |
 | --- | --- | --- | --- |
-| `api` | stable | supported | current alpha baseline |
+| `api` | stable | supported | current baseline |
 | `lib` | stable | supported | baseline library scaffold |
 | `cli` | stable | supported | baseline CLI scaffold |
 | `web` | stable keyword | reserved | taxonomy placeholder |
