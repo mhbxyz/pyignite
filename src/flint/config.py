@@ -50,6 +50,8 @@ def load_flint_config(root: Path) -> FlintConfig:
             "Fix the TOML syntax or remove the file and rely on conventions.",
         ) from exc
 
+    validate_top_level_keys(data)
+
     app = expect_table(data, "app", optional=True)
     check = expect_table(data, "check", optional=True)
     paths = expect_table(data, "paths", optional=True)
@@ -58,6 +60,16 @@ def load_flint_config(root: Path) -> FlintConfig:
     watch_paths = read_string_list(paths, "watch", root) if paths and "watch" in paths else None
     typecheck = read_bool(check, "typecheck") if check and "typecheck" in check else None
     return FlintConfig(app_module=app_module, watch_paths=watch_paths, typecheck=typecheck)
+
+
+def validate_top_level_keys(data: dict[str, Any]) -> None:
+    allowed_keys = {"app", "check", "paths"}
+    unknown = sorted(key for key in data if key not in allowed_keys)
+    if unknown:
+        raise config_error(
+            f"Unknown top-level keys in flint.toml: {', '.join(unknown)}.",
+            "Use only [app], [check], and [paths] in flint.toml.",
+        )
 
 
 def expect_table(data: dict[str, Any], key: str, optional: bool = False) -> dict[str, Any] | None:
@@ -146,23 +158,43 @@ def _contains_pyright(items: list[Any]) -> bool:
 
 
 def discover_app_module(root: Path) -> str:
-    candidates = [
-        *sorted((root / "src").glob("*/main.py")),
+    src_main_candidates = sorted((root / "src").glob("*/main.py"))
+    if len(src_main_candidates) == 1:
+        return build_app_module(root, src_main_candidates[0])
+    if len(src_main_candidates) > 1:
+        raise config_error(
+            "Found multiple ASGI app candidates under src/.",
+            "Set `[app].module` in flint.toml to choose the canonical app module.",
+        )
+
+    fallback_candidates = [
         *sorted((root / "src").glob("*/app.py")),
         *sorted(root.glob("*/main.py")),
         root / "main.py",
     ]
-    for candidate in candidates:
-        if not candidate.exists():
-            continue
-        module = module_name_from_path(root, candidate)
-        if module:
-            return f"{module}:app"
+    resolved = [candidate for candidate in fallback_candidates if candidate.exists()]
+    if len(resolved) == 1:
+        return build_app_module(root, resolved[0])
+    if len(resolved) > 1:
+        raise config_error(
+            "Found multiple fallback ASGI app candidates.",
+            "Set `[app].module` in flint.toml to choose the canonical app module.",
+        )
 
     raise config_error(
         "Could not resolve an ASGI app target.",
         "Add `flint.toml` with `[app].module = 'package.main:app'` or follow the default src layout.",
     )
+
+
+def build_app_module(root: Path, path: Path) -> str:
+    module = module_name_from_path(root, path)
+    if not module:
+        raise config_error(
+            "Could not resolve an importable module path for the ASGI app.",
+            "Ensure the app file is inside the project root and uses a valid Python module path.",
+        )
+    return f"{module}:app"
 
 
 def module_name_from_path(root: Path, path: Path) -> str | None:

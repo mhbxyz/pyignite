@@ -42,8 +42,13 @@ def classify_changes(root: Path, changed_paths: Iterable[str]) -> ChangeDecision
 
 def run_dev_loop(settings: ProjectSettings) -> int:
     server = ServerProcess(settings)
+    print("==> dev cycle: initial")
     server.start()
-    run_check_pipeline(settings)
+    check_exit_code = run_check_pipeline(settings)
+    if check_exit_code != 0:
+        print("FAILED dev cycle: initial")
+    else:
+        print("OK dev cycle: initial")
 
     try:
         for changes in watch(*settings.watch_paths, raise_interrupt=False):
@@ -51,10 +56,16 @@ def run_dev_loop(settings: ProjectSettings) -> int:
             decision = classify_changes(settings.root, changed_paths)
             if not decision.restart_server and not decision.run_checks:
                 continue
+            print("==> dev cycle: change")
             if decision.restart_server:
+                print("Restarting server")
                 server.restart()
             if decision.run_checks:
-                run_check_pipeline(settings)
+                check_exit_code = run_check_pipeline(settings)
+                if check_exit_code != 0:
+                    print("FAILED dev cycle: change")
+                else:
+                    print("OK dev cycle: change")
     except KeyboardInterrupt:
         return 0
     except OSError as exc:
@@ -79,6 +90,11 @@ class ServerProcess:
             build_run_command(self._settings, reload_enabled=False),
             self._settings.root,
         )
+        if self._process.poll() is not None:
+            raise tooling_error(
+                "The ASGI server exited immediately.",
+                "Run `flint run` to inspect the startup failure directly.",
+            )
 
     def restart(self) -> None:
         self.stop()

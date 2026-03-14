@@ -40,3 +40,13 @@ All handled failures follow this format:
 ERROR [category] Short explanation.
 Hint: Concrete recovery step.
 ```
+
+## Canonical Project Shape
+
+The primary supported repo shape for v1 hardening is:
+
+- `src/<package>/main.py`
+- exported `app`
+- `tests/`
+- `pyproject.toml`
+- optional `flint.toml`

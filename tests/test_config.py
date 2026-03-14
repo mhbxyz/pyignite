@@ -49,6 +49,15 @@ def test_invalid_flint_config_raises_config_error(tmp_path: Path) -> None:
     assert exc_info.value.category == "config"
 
 
+def test_unknown_top_level_flint_config_key_raises_config_error(tmp_path: Path) -> None:
+    (tmp_path / "flint.toml").write_text("[unknown]\nvalue = true\n")
+
+    with pytest.raises(FlintError) as exc_info:
+        load_flint_config(tmp_path)
+
+    assert "Unknown top-level keys" in exc_info.value.message
+
+
 def test_should_run_typecheck_from_pyproject(tmp_path: Path) -> None:
     (tmp_path / "pyproject.toml").write_text(
         """
@@ -66,3 +75,15 @@ dev = ["pyright>=1.1.0"]
 def test_discover_app_module_errors_without_convention(tmp_path: Path) -> None:
     with pytest.raises(FlintError):
         discover_app_module(tmp_path)
+
+
+def test_discover_app_module_errors_on_multiple_src_candidates(tmp_path: Path) -> None:
+    (tmp_path / "src" / "one").mkdir(parents=True)
+    (tmp_path / "src" / "two").mkdir(parents=True)
+    (tmp_path / "src" / "one" / "main.py").write_text("app = object()\n")
+    (tmp_path / "src" / "two" / "main.py").write_text("app = object()\n")
+
+    with pytest.raises(FlintError) as exc_info:
+        discover_app_module(tmp_path)
+
+    assert "multiple ASGI app candidates" in exc_info.value.message

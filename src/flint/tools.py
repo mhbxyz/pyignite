@@ -24,6 +24,7 @@ def build_run_command(settings: ProjectSettings, reload_enabled: bool) -> list[s
 
 
 def run_foreground(command: list[str], cwd: Path) -> int:
+    ensure_uv_available(command[2], cwd)
     try:
         completed = subprocess.run(command, cwd=cwd)
     except FileNotFoundError as exc:
@@ -35,6 +36,7 @@ def run_foreground(command: list[str], cwd: Path) -> int:
 
 
 def spawn_background(command: list[str], cwd: Path) -> subprocess.Popen[str]:
+    ensure_uv_available(command[2], cwd)
     try:
         return subprocess.Popen(command, cwd=cwd)
     except FileNotFoundError as exc:
@@ -55,6 +57,7 @@ def run_check_pipeline(settings: ProjectSettings, stdout: TextIO | None = None) 
 
     for step_name, command in commands:
         print(f"==> {step_name}", file=stream)
+        ensure_uv_available(command[2], settings.root)
         returncode = run_step(command, settings.root)
         if returncode != 0:
             print(f"FAILED {step_name}", file=stream)
@@ -72,3 +75,24 @@ def run_step(command: list[str], cwd: Path) -> int:
             "Install the required tooling and ensure it is available in PATH.",
         ) from exc
     return completed.returncode
+
+
+def ensure_uv_available(tool_name: str, cwd: Path) -> None:
+    try:
+        completed = subprocess.run(
+            ["uv", "run", tool_name, "--version"],
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError as exc:
+        raise tooling_error(
+            "Could not execute `uv`.",
+            "Install `uv` and ensure it is available in PATH.",
+        ) from exc
+
+    if completed.returncode != 0:
+        raise tooling_error(
+            f"Required tool `{tool_name}` is not available.",
+            "Install project dev dependencies with `uv sync --extra dev` and retry.",
+        )

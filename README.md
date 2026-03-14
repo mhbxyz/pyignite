@@ -37,10 +37,19 @@ Flint resolves the ASGI app using these conventions, in order:
 
 Default watch paths are `src/` and `tests/` when present.
 
+The canonical repo shape Flint optimizes for is:
+
+- `src/<package>/main.py`
+- exported ASGI object named `app`
+- `tests/`
+- `pyproject.toml`
+- optional `flint.toml`
+
 ## Runtime Contract
 
 - `flint run` uses `uv run uvicorn <module>:app --reload`
 - `flint dev` runs the server without Uvicorn reload and restarts it when source files change
 - `flint check` runs `ruff check .`, `pytest`, and optional `pyright` in that order
+- missing required tools fail fast with a Flint error and a recovery hint
 
 See [docs/reference/command-contract-v1.md](/home/mhbxyz/Projects/Flint/docs/reference/command-contract-v1.md) for the command contract.
